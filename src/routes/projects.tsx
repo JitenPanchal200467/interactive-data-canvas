@@ -3,6 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Github, ExternalLink, Activity, Sparkles, Layers } from "lucide-react";
 import { SiteShell, Section } from "@/components/site-shell";
 import { DecisionTreeFilter } from "@/components/decision-tree-filter";
+import { Reveal } from "@/components/reveal";
 import { projects, profile, type Project } from "@/data/portfolio";
 
 export interface ProjectsSearch {
@@ -85,10 +86,12 @@ function ProjectsPage() {
           />
         </div>
 
-        {/* Project Cards Grid */}
+        {/* Project Cards Grid with Scroll Pop-Up */}
         <div className="grid gap-6 md:grid-cols-2">
-          {filteredProjects.map((p) => (
-            <ProjectCard key={p.slug} project={p} />
+          {filteredProjects.map((p, idx) => (
+            <Reveal key={p.slug} delay={idx * 0.08} type="pop">
+              <ProjectCard project={p} />
+            </Reveal>
           ))}
         </div>
 
@@ -118,7 +121,7 @@ function ProjectCard({ project }: { project: Project }) {
   const isProd = project.scale === "Production";
 
   return (
-    <article className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card transition-all duration-200 hover:border-primary/50 hover:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.6)]">
+    <article className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/60 hover:shadow-[0_16px_36px_rgba(61,219,198,0.14)]">
       <div>
         {/* Card Header & Status */}
         <div className="flex items-center justify-between border-b border-border/80 bg-surface/40 px-5 py-3.5">

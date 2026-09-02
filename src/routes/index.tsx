@@ -177,11 +177,12 @@ function IndexPage() {
 
         <div className="grid gap-6 md:grid-cols-3">
           {projects.slice(0, 3).map((p, i) => (
-            <Reveal key={p.slug} delay={i * 0.08}>
+            <Reveal key={p.slug} delay={i * 0.08} type="pop">
               <Link
                 to="/projects/$slug"
                 params={{ slug: p.slug }}
-                className="group flex flex-col justify-between h-full rounded-2xl border border-border bg-card p-6 transition-all duration-200 hover:border-primary/60 hover:shadow-[0_12px_24px_-10px_rgba(0,0,0,0.5)]"
+                preload="intent"
+                className="group flex flex-col justify-between h-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-2 hover:border-primary/60 hover:shadow-[0_18px_38px_rgba(61,219,198,0.14)]"
               >
                 <div>
                   <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground">

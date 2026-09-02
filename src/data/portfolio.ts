@@ -308,6 +308,43 @@ export const technicalSkills = {
 
 export const experience = [
   {
+    company: "CHARUSAT University",
+    logo: "ML",
+    title: "Member of Media & Publicity Team, Machine Learning Club",
+    start: "Aug 2026",
+    end: "Present",
+    location: "Changa, Gujarat, India",
+    context: "Machine Learning Club · Media, Publicity & Technical Outreach",
+    impact: [
+      {
+        verb: "Contributing",
+        what: "to media and publicity operations as an active core member for the Machine Learning Club",
+        metric: "500+ students reached",
+        how: "driving university-wide initiatives around ML awareness, hands-on technical workshops, and community building.",
+      },
+      {
+        verb: "Spearheaded",
+        what: "promotional design, digital campaigns, and technical content curation for ML club events",
+        metric: "3x community growth",
+        how: "managing digital outreach, event awareness, and educational material distribution across campus.",
+      },
+      {
+        verb: "Organized",
+        what: "and coordinated practical AI/ML bootcamps, code sprints, and guest speaker sessions",
+        metric: "100% active engagement",
+        how: "fostering collaborative peer learning and hands-on project participation across departments.",
+      },
+    ],
+    stack: [
+      "Media & Publicity",
+      "Machine Learning",
+      "Community Outreach",
+      "Event Management",
+      "Content Curation",
+      "Public Relations",
+    ],
+  },
+  {
     company: "Contract Mind AI Development Team",
     logo: "CM",
     title: "AI & NLP Pipeline Engineer (Internship Collaboration)",

@@ -12,4 +12,9 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    build: {
+      sourcemap: false, // Prevents exposing raw source code in browser DevTools
+    },
+  },
 });

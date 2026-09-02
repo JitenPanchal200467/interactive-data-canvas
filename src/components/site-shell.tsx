@@ -4,7 +4,6 @@ import { Menu, X, Search, FileDown, TerminalSquare, Github, Linkedin } from "luc
 import { profile } from "@/data/portfolio";
 import { TerminalEasterEgg } from "@/components/terminal-easter-egg";
 import { CommandPalette } from "@/components/command-palette";
-import { CustomCursor } from "@/components/custom-cursor";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -15,6 +14,8 @@ const nav = [
   { to: "/resume", label: "Resume" },
   { to: "/contact", label: "Contact" },
 ] as const;
+
+let hasPrintedSecBanner = false;
 
 export function SiteShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -44,8 +45,32 @@ export function SiteShell({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // DevTools Anti-Self-XSS Console Notice
+  useEffect(() => {
+    if (typeof window !== "undefined" && !hasPrintedSecBanner) {
+      hasPrintedSecBanner = true;
+      console.log(
+        "%c🛑 SECURITY NOTICE",
+        "color: #ff5555; font-size: 18px; font-weight: 900; background: #0b1118; padding: 6px 12px; border: 1px solid #ff5555; border-radius: 6px;",
+      );
+      console.log(
+        "%cThis browser console is intended for developers. Never copy-paste untrusted code or snippets here — doing so can compromise your session security.",
+        "color: #3ddbc7; font-size: 12px; font-family: monospace;",
+      );
+    }
+  }, []);
+
+  const isLoading = routerState.status === "pending" || routerState.isLoading;
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-primary/20 selection:text-primary">
+      {/* Global Route Transition Loading Indicator */}
+      {isLoading && (
+        <div className="fixed top-0 left-0 right-0 z-[200] h-[3px] overflow-hidden bg-primary/20 pointer-events-none">
+          <div className="h-full w-full bg-gradient-to-r from-primary via-teal-200 to-accent animate-pulse shadow-[0_0_15px_rgba(61,219,198,0.9)]" />
+        </div>
+      )}
+
       <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
         {/* 2px Scroll Progress Hairline Indicator */}
         <div
@@ -80,6 +105,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               <Link
                 key={n.to}
                 to={n.to}
+                preload="intent"
                 activeOptions={{ exact: n.to === "/" }}
                 activeProps={{
                   className: "!text-primary !bg-surface-raised font-semibold shadow-sm",
@@ -149,6 +175,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               <Link
                 key={n.to}
                 to={n.to}
+                preload="intent"
                 onClick={() => setOpen(false)}
                 activeOptions={{ exact: n.to === "/" }}
                 activeProps={{ className: "!text-primary !bg-surface-raised font-medium" }}
@@ -171,11 +198,13 @@ export function SiteShell({ children }: { children: ReactNode }) {
         )}
       </header>
 
-      {/* Main Page Slot */}
-      <main className="flex-1">{children}</main>
-
-      {/* Custom Interactive Cursor for Desktop */}
-      <CustomCursor />
+      {/* Main Page Slot with Smooth Fade & Pop-Up Transition */}
+      <main
+        key={routerState.location.pathname}
+        className="flex-1 animate-in fade-in zoom-in-[0.99] duration-300 ease-out"
+      >
+        {children}
+      </main>
 
       {/* Global Command Palette */}
       <CommandPalette
