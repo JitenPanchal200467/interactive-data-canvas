@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/site-shell";
+import { Reveal } from "@/components/reveal";
 import { SkillMatrix } from "@/components/skill-matrix";
 import { profile, metrics, projects } from "@/data/portfolio";
 
@@ -65,16 +66,17 @@ function Index() {
           </Link>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
-          {projects.slice(0, 3).map((p) => (
+          {projects.slice(0, 3).map((p, i) => (
+            <Reveal key={p.slug} delay={i * 0.08}>
             <Link
-              key={p.slug}
               to="/projects"
-              className="rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary"
+              className="block h-full rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary"
             >
               <p className="label-caps">{p.domain} · {p.scale}</p>
               <h3 className="mt-2 font-display text-lg font-semibold">{p.name}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{p.blurb}</p>
             </Link>
+            </Reveal>
           ))}
         </div>
       </section>
