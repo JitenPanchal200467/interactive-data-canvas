@@ -44,6 +44,10 @@ function Index() {
             </Link>
           </div>
 
+          <p className="label-caps mt-6 text-muted-foreground/70">
+            Move your cursor — the data field reacts. Hover a node to read the skill.
+          </p>
+
           <dl className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-4">
             {metrics.map((m) => (
               <div key={m.label} className="bg-card p-5">
