@@ -72,7 +72,7 @@ function SkillNodes() {
     () =>
       skills.slice(0, 14).map((s, i, a) => {
         const angle = (i / a.length) * Math.PI * 2;
-        const radius = 10.5 + (i % 3) * 1.8;
+        const radius = 6.5 + (i % 3) * 1.6;
         return {
           name: s.name,
           value: s.y,
@@ -131,7 +131,7 @@ function CameraRig() {
   const { camera, pointer } = useThree();
   const target = useMemo(() => new THREE.Vector3(), []);
   useFrame((_, delta) => {
-    target.set(pointer.x * 2.2, 1.6 + pointer.y * 1.0, 14 - Math.abs(pointer.x) * 0.8);
+    target.set(pointer.x * 2.2, 1.6 + pointer.y * 1.0, 22 - Math.abs(pointer.x) * 0.8);
     const k = 1 - Math.exp(-2.5 * Math.min(delta, 0.05));
     camera.position.lerp(target, k);
     camera.lookAt(0, 0, 0);
@@ -143,10 +143,10 @@ export default function HeroField() {
   return (
     <Canvas
       dpr={[1, 1.75]}
-      camera={{ position: [0, 1.6, 14], fov: 55 }}
+      camera={{ position: [0, 1.6, 22], fov: 42 }}
       gl={{ antialias: true, alpha: true }}
     >
-      <fog attach="fog" args={["#06131a", 16, 42]} />
+      <fog attach="fog" args={["#06131a", 20, 50]} />
       <ambientLight intensity={0.6} />
       <directionalLight position={[6, 9, 5]} intensity={1.1} />
       <Environment>
