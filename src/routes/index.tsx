@@ -20,8 +20,10 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <SiteShell>
-      <section className="grid-bg border-b border-border">
-        <div className="mx-auto max-w-6xl px-5 py-24">
+      <section className="grid-bg relative isolate overflow-hidden border-b border-border">
+        <HeroCanvas />
+        <div className="pointer-events-none absolute inset-0 -z-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
+        <div className="pointer-events-none relative z-10 mx-auto max-w-6xl px-5 py-24 [&_a]:pointer-events-auto [&_dl]:pointer-events-auto">
           <p className="label-caps">{profile.role} · {profile.location}</p>
           <h1 className="text-display mt-4 max-w-4xl">{profile.tagline}</h1>
           <p className="mt-6 max-w-2xl text-lg text-muted-foreground">{profile.summary}</p>
