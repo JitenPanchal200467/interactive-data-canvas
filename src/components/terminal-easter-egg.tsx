@@ -166,7 +166,8 @@ export function TerminalEasterEgg() {
               <div ref={endRef} />
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
