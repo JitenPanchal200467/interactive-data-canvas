@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/site-shell";
 import { Reveal } from "@/components/reveal";
 import { SkillMatrix } from "@/components/skill-matrix";
+import { HeroCanvas } from "@/components/hero-canvas";
 import { profile, metrics, projects } from "@/data/portfolio";
 
 export const Route = createFileRoute("/")({
