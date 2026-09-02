@@ -31,19 +31,21 @@ function Lattice() {
     const geo = ref.current?.geometry;
     if (!geo) return;
     const t = clock.elapsedTime;
-    const pos = geo.attributes.position.array as Float32Array;
+    const attr = geo.attributes["position"] as THREE.BufferAttribute | undefined;
+    if (!attr) return;
+    const pos = attr.array as Float32Array;
     const mx = pointer.x * 12;
     const mz = -pointer.y * 8;
     for (let i = 0; i < pos.length; i += 3) {
-      const x = base[i];
-      const z = base[i + 2];
+      const x = base[i] ?? 0;
+      const z = base[i + 2] ?? 0;
       const d = Math.hypot(x - mx, z - mz);
       pos[i + 1] =
         Math.sin(x * 0.35 + t * 0.6) * 0.5 +
         Math.cos(z * 0.3 - t * 0.45) * 0.5 +
         Math.exp(-d * 0.25) * 2.2 * Math.sin(t * 2 - d * 0.8);
     }
-    geo.attributes.position.needsUpdate = true;
+    attr.needsUpdate = true;
   });
 
   return (
