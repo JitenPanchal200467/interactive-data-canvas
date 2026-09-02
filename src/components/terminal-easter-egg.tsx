@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
 import { TerminalSquare } from "lucide-react";
 import { profile, projects, certifications, skills } from "@/data/portfolio";
