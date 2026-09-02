@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
 import { TerminalSquare } from "lucide-react";
 import { profile, projects, certifications, skills } from "@/data/portfolio";
@@ -125,9 +126,9 @@ export function TerminalEasterEgg() {
         <TerminalSquare className="h-4 w-4" />
       </button>
 
-      {open && (
+      {open && typeof document !== "undefined" && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 sm:items-center"
+          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 p-4 sm:items-center"
           onClick={() => setOpen(false)}
         >
           <div
@@ -165,7 +166,8 @@ export function TerminalEasterEgg() {
               <div ref={endRef} />
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
