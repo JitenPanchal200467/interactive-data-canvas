@@ -126,9 +126,9 @@ export function TerminalEasterEgg() {
         <TerminalSquare className="h-4 w-4" />
       </button>
 
-      {open && (
+      {open && typeof document !== "undefined" && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 sm:items-center"
+          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 p-4 sm:items-center"
           onClick={() => setOpen(false)}
         >
           <div
