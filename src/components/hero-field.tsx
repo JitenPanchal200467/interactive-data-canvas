@@ -47,7 +47,7 @@ function Lattice() {
   });
 
   return (
-    <points ref={ref} position={[0, -3.2, 0]}>
+    <points ref={ref} position={[0, -4.2, 0]}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
@@ -72,16 +72,16 @@ function SkillNodes() {
     () =>
       skills.slice(0, 14).map((s, i, a) => {
         const angle = (i / a.length) * Math.PI * 2;
-        const radius = 5.2 + (i % 3) * 1.1;
+        const radius = 10.5 + (i % 3) * 1.8;
         return {
           name: s.name,
           value: s.y,
           pos: [
             Math.cos(angle) * radius,
-            ((i % 5) - 2) * 0.9,
+            ((i % 5) - 2) * 1.5,
             Math.sin(angle) * radius,
           ] as [number, number, number],
-          size: 0.16 + (s.y / 100) * 0.22,
+          size: 0.14 + (s.y / 100) * 0.18,
         };
       }),
     []
@@ -131,7 +131,7 @@ function CameraRig() {
   const { camera, pointer } = useThree();
   const target = useMemo(() => new THREE.Vector3(), []);
   useFrame((_, delta) => {
-    target.set(pointer.x * 2.6, 1.4 + pointer.y * 1.2, 9.5 - Math.abs(pointer.x) * 0.8);
+    target.set(pointer.x * 2.2, 1.6 + pointer.y * 1.0, 14 - Math.abs(pointer.x) * 0.8);
     const k = 1 - Math.exp(-2.5 * Math.min(delta, 0.05));
     camera.position.lerp(target, k);
     camera.lookAt(0, 0, 0);
@@ -143,10 +143,10 @@ export default function HeroField() {
   return (
     <Canvas
       dpr={[1, 1.75]}
-      camera={{ position: [0, 1.4, 9.5], fov: 55 }}
+      camera={{ position: [0, 1.6, 14], fov: 55 }}
       gl={{ antialias: true, alpha: true }}
     >
-      <fog attach="fog" args={["#06131a", 12, 30]} />
+      <fog attach="fog" args={["#06131a", 16, 42]} />
       <ambientLight intensity={0.6} />
       <directionalLight position={[6, 9, 5]} intensity={1.1} />
       <Environment>
