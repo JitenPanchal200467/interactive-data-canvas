@@ -81,13 +81,15 @@ function AboutPage() {
               Throughout my computer engineering training and industry internships at Zaalima
               Development and Infolabz IT Services, I have observed that models frequently fail in
               production not because of algorithmic inadequacy, but because of unhandled data
-              quality defects, data leakage during transformations, and high-latency serving bottlenecks.
+              quality defects, data leakage during transformations, and high-latency serving
+              bottlenecks.
             </p>
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               My engineering approach unites rigorous machine learning (fine-tuned transformer
-              architectures for legal contract understanding, ensemble regression, and RAG retrieval)
-              with deterministic software systems (vectorized Pandas/NumPy pipelines, asynchronous
-              Celery workers, Dockerized microservices, and client-side zero-latency processing).
+              architectures for legal contract understanding, ensemble regression, and RAG
+              retrieval) with deterministic software systems (vectorized Pandas/NumPy pipelines,
+              asynchronous Celery workers, Dockerized microservices, and client-side zero-latency
+              processing).
             </p>
             <div className="border-t border-border pt-4 flex flex-wrap items-center gap-4">
               <Link

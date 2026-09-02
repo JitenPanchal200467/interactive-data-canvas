@@ -93,8 +93,7 @@ export function SkillMatrix() {
   const PAD_TOP = 45;
   const PAD_BOTTOM = 65;
 
-  const px = (x: number) =>
-    PAD_LEFT + ((x - minX) / (maxX - minX)) * (W - PAD_LEFT - PAD_RIGHT);
+  const px = (x: number) => PAD_LEFT + ((x - minX) / (maxX - minX)) * (W - PAD_LEFT - PAD_RIGHT);
   const py = (y: number) =>
     H - PAD_BOTTOM - ((y - minY) / (maxY - minY)) * (H - PAD_TOP - PAD_BOTTOM);
 
@@ -218,7 +217,10 @@ export function SkillMatrix() {
                       </div>
                     </a>
 
-                    <span className="num font-mono text-xs font-bold" style={{ color: conf.stroke }}>
+                    <span
+                      className="num font-mono text-xs font-bold"
+                      style={{ color: conf.stroke }}
+                    >
                       {s.y}%
                     </span>
                   </div>
@@ -254,7 +256,9 @@ export function SkillMatrix() {
                       <BookOpen className="h-3 w-3" />
                       <span>Official Docs ↗</span>
                     </a>
-                    <span className="text-muted-foreground">{s.projects.length} Shipped In Prod</span>
+                    <span className="text-muted-foreground">
+                      {s.projects.length} Shipped In Prod
+                    </span>
                   </div>
 
                   <div className="flex flex-wrap gap-1">
@@ -474,7 +478,9 @@ export function SkillMatrix() {
                   <p className="text-xs font-mono text-muted-foreground mt-0.5">
                     Category: <span className="text-primary">{hoveredSkill.group}</span> ·{" "}
                     <span className="text-foreground">{hoveredSkill.x} Years Experience</span> ·{" "}
-                    <span className="text-teal-300 font-bold">{hoveredSkill.y}% Production Depth</span>
+                    <span className="text-teal-300 font-bold">
+                      {hoveredSkill.y}% Production Depth
+                    </span>
                   </p>
                 </div>
               </div>
@@ -496,7 +502,8 @@ export function SkillMatrix() {
             </div>
           ) : (
             <div className="rounded-xl border border-border bg-surface/30 p-3.5 text-center text-xs font-mono text-muted-foreground">
-              Click any skill node on the 2D map to open its official documentation, or hover to inspect production depth.
+              Click any skill node on the 2D map to open its official documentation, or hover to
+              inspect production depth.
             </div>
           )}
         </div>

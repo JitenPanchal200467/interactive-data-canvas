@@ -72,13 +72,18 @@ export function SiteShell({ children }: { children: ReactNode }) {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden items-center gap-1.5 lg:gap-2 md:flex" aria-label="Main Navigation">
+          <nav
+            className="hidden items-center gap-1.5 lg:gap-2 md:flex"
+            aria-label="Main Navigation"
+          >
             {nav.map((n) => (
               <Link
                 key={n.to}
                 to={n.to}
                 activeOptions={{ exact: n.to === "/" }}
-                activeProps={{ className: "!text-primary !bg-surface-raised font-semibold shadow-sm" }}
+                activeProps={{
+                  className: "!text-primary !bg-surface-raised font-semibold shadow-sm",
+                }}
                 className="rounded-lg px-3 py-1.5 text-xs lg:text-sm text-muted-foreground transition-all hover:text-foreground hover:bg-surface-raised/60"
               >
                 {n.label}

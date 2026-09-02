@@ -242,7 +242,10 @@ function ResumePage() {
 
                     <ul className="space-y-2 mt-2">
                       {job.impact.map((item, bIdx) => (
-                        <li key={bIdx} className="flex items-start gap-2.5 text-xs sm:text-sm leading-relaxed">
+                        <li
+                          key={bIdx}
+                          className="flex items-start gap-2.5 text-xs sm:text-sm leading-relaxed"
+                        >
                           <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                           <div>
                             <strong className="text-foreground">{item.verb} </strong>
@@ -355,7 +358,9 @@ function ResumePage() {
                         {edu.degree}
                       </h3>
                       <p className="text-xs text-muted-foreground mt-0.5">{edu.school}</p>
-                      <p className="text-xs text-muted-foreground font-mono mt-0.5">{edu.location}</p>
+                      <p className="text-xs text-muted-foreground font-mono mt-0.5">
+                        {edu.location}
+                      </p>
                     </div>
 
                     <div className="mt-4 pt-3 border-t border-border/80 flex items-center justify-between">

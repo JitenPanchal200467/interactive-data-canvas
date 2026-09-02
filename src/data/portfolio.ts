@@ -79,7 +79,8 @@ export const profile = {
   name: "Jiten Panchal",
   role: "Data Scientist & Machine Learning Engineer",
   specialty: "NLP, Contract Intelligence, Automated ML Pipelines & Scalable Systems",
-  tagline: "I engineer end-to-end ML pipelines, fine-tune transformer models, and build intelligent data systems.",
+  tagline:
+    "I engineer end-to-end ML pipelines, fine-tune transformer models, and build intelligent data systems.",
   summary:
     "Computer Engineering background (B.Tech at CSPIT CHARUSAT, Diploma with 8.21 CGPA) with hands-on industry experience building AI-powered Contract Intelligence platforms (CUAD fine-tuned RoBERTa/BERT, RAG, NER), automated data preprocessing harnesses, and backend Django/FastAPI microservices.",
   aboutBio: [
@@ -512,7 +513,8 @@ export const projects: Project[] = [
           },
           {
             name: "spaCy Rule-based NER + TF-IDF",
-            description: "Extracted basic entities (dates, parties) but struggled with complex multi-sentence clauses.",
+            description:
+              "Extracted basic entities (dates, parties) but struggled with complex multi-sentence clauses.",
             score: "73.5% F1",
             status: "failed",
           },
@@ -767,13 +769,15 @@ export const projects: Project[] = [
         iterations: [
           {
             name: "Global Preprocessing Script",
-            description: "Cleaned data globally but leaked validation statistics into training folds.",
+            description:
+              "Cleaned data globally but leaked validation statistics into training folds.",
             score: "Overfit Leakage",
             status: "failed",
           },
           {
             name: "Modular Transformer Classes",
-            description: "Implemented fit() and transform() protocol; guaranteed proper fold isolation.",
+            description:
+              "Implemented fit() and transform() protocol; guaranteed proper fold isolation.",
             score: "Leak-Free",
             status: "success",
           },
@@ -901,13 +905,15 @@ export const projects: Project[] = [
         iterations: [
           {
             name: "Chunked FileReader Async",
-            description: "Prevented UI freeze but suffered from excessive garbage collection overhead.",
+            description:
+              "Prevented UI freeze but suffered from excessive garbage collection overhead.",
             score: "210ms / file",
             status: "failed",
           },
           {
             name: "Web Worker Offloading",
-            description: "Moved binary transformations off the main thread; achieved smooth 60fps UI.",
+            description:
+              "Moved binary transformations off the main thread; achieved smooth 60fps UI.",
             score: "65ms / file",
             status: "success",
           },
@@ -973,7 +979,8 @@ export const projects: Project[] = [
           "Compression / transformation algorithm executes in background thread",
           "Result buffer packed into downloadable client Blob URL",
         ],
-        driftStrategy: "Client-side error boundary reporting and browser compatibility fallback checks.",
+        driftStrategy:
+          "Client-side error boundary reporting and browser compatibility fallback checks.",
         latency: "38ms P95 conversion latency",
         cadence: "Instant on-demand client execution",
       },
@@ -1040,7 +1047,8 @@ export const projects: Project[] = [
           },
           {
             name: "Random Forest Regressor",
-            description: "Captured non-linearities but suffered from boundary extrapolation errors.",
+            description:
+              "Captured non-linearities but suffered from boundary extrapolation errors.",
             score: "RMSE: $4,480",
             status: "success",
           },
@@ -1180,7 +1188,8 @@ export const projects: Project[] = [
           },
           {
             name: "Bitwise / Space-Optimized DP (Final)",
-            description: "Achieved optimal $O(N)$ time and $O(1)$ space with cache-friendly layouts.",
+            description:
+              "Achieved optimal $O(N)$ time and $O(1)$ space with cache-friendly layouts.",
             score: "Top 5% Runtime",
             status: "final",
           },
@@ -1453,7 +1462,8 @@ export const education = [
     year: "Aug 2022 – Jul 2025",
     score: "8.21 CGPA",
     location: "Ahmedabad, Gujarat",
-    thesis: "Foundational computer science, algorithms, relational database systems, and full-stack software development",
+    thesis:
+      "Foundational computer science, algorithms, relational database systems, and full-stack software development",
   },
   {
     school: "Saint Mary's Secondary and Higher Secondary School",

@@ -79,7 +79,8 @@ function IndexPage() {
           </div>
 
           <p className="label-caps mt-4 text-muted-foreground/60 text-[10px] sm:text-[11px]">
-            Interactive 3D field: Drag or move cursor to perturb data manifold. Hover nodes to inspect tools.
+            Interactive 3D field: Drag or move cursor to perturb data manifold. Hover nodes to
+            inspect tools.
           </p>
 
           {/* Animated KPI Count-Up Numerals */}

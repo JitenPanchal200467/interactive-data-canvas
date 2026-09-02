@@ -58,7 +58,8 @@ const decisionTree: DecisionNode = {
             label: "C++ & Algorithmic Complexity",
             description: "150+ DSA patterns, cache locality & Hamming FEC",
             pathCode: "engineering.edge",
-            predicate: (domain, slug) => slug === "dsa-complexity-tracker" || slug === "hamming-code",
+            predicate: (domain, slug) =>
+              slug === "dsa-complexity-tracker" || slug === "hamming-code",
           },
           {
             label: "Pipelines & Web Workers",
@@ -90,7 +91,9 @@ const decisionTree: DecisionNode = {
             description: "65% accommodation search cut & leak-free ML preparation",
             pathCode: "impact.speed",
             predicate: (domain, slug) =>
-              slug === "hostel-hub" || slug === "ml-preprocessing" || slug === "contract-intelligence",
+              slug === "hostel-hub" ||
+              slug === "ml-preprocessing" ||
+              slug === "contract-intelligence",
           },
         ],
       },
