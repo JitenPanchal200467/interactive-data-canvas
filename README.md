@@ -8,12 +8,14 @@ A data scientist needs a standout, highly engaging portfolio website. The site m
 
 Task:
 Design a complete blueprint and technical specification for an interactive, animated data science portfolio website, including:
+
 1. **Site Architecture & User Flow**: Page sections (Hero, About, Experience, Projects, Certifications, Contact) and how users navigate them.
 2. **Interactive Gimmicks**: 2-3 specific, high-impact interactive ideas that blend data science with web engagement (e.g., an interactive decision-tree navigation, a live scatter-plot skill matrix, or a simulated Python/SQL terminal easter egg).
 3. **Design & Animation System**: Color palettes, typography, typography scale, and scroll-triggered animation concepts (using modern CSS/JS libraries like Framer Motion or GSAP).
 4. **Content Modules**: Guidelines on how to structure **[YOUR_NAME]**'s experience, certifications, and project cards with metrics/KPIs.
 
 Constraints:
+
 - Tone: Sleek, modern, technically impressive, yet accessible.
 - Avoid cluttered designs or gimmicks that slow down page load or obscure the actual resume/work.
 - Use placeholders like **[NAME]**, **[TECH_STACK]**, **[PROJECT_NAME]**, and **[CERTIFICATION_LIST]** for specific personal data.

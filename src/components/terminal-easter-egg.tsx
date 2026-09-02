@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
-import { TerminalSquare } from "lucide-react";
-import { profile, projects, certifications, skills } from "@/data/portfolio";
+import { TerminalSquare, X, Maximize2, Minimize2 } from "lucide-react";
+import { profile, projects, certifications, skills, experience } from "@/data/portfolio";
 
 const routes: Record<string, string> = {
   home: "/",
@@ -10,165 +10,427 @@ const routes: Record<string, string> = {
   experience: "/experience",
   projects: "/projects",
   certifications: "/certifications",
+  resume: "/resume",
   contact: "/contact",
 };
 
-const HELP = [
-  "available commands:",
-  "  help                 show this list",
-  "  ls                   list pages",
-  "  cd <page>            navigate to a page",
-  "  whoami               who is behind this site",
-  "  skills [n]           top n skills by depth",
-  "  projects             list case studies",
-  "  certs                list certifications",
-  "  clear                clear the screen",
-  "  exit                 close the terminal",
+const HELP_LINES = [
+  "┌── DATA SCIENCE INTERACTIVE TERMINAL (Python / SQL REPL) ──────────┐",
+  "│  help                      Show this command list                 │",
+  "│  whoami                    Inspect author profile & specialty     │",
+  "│  ls [projects]             List portfolio routes or case studies  │",
+  "│  cd <route>                Navigate client router (e.g. cd about) │",
+  "│  cat <project-slug>        View TL;DR for a specific case study   │",
+  "│  SELECT * FROM experience  Query work history as an ASCII table   │",
+  "│  df.describe()             Summary stats of career metrics        │",
+  "│  skills [n]                Top n skills sorted by depth score     │",
+  "│  certs                     List active engineering credentials    │",
+  "│  import antigravity        Trigger XKCD Python antigravity module │",
+  "│  clear / exit              Clear output buffer or close session   │",
+  "└───────────────────────────────────────────────────────────────────┘",
 ];
 
-export function TerminalEasterEgg() {
-  const [open, setOpen] = useState(false);
+export function TerminalEasterEgg({
+  openOverride,
+  onOpenChange,
+}: {
+  openOverride?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [input, setInput] = useState("");
+  const [history, setHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState<number>(-1);
   const [lines, setLines] = useState<string[]>([
-    `${profile.name.toLowerCase().replace(/\s+/g, "")}@portfolio — type "help" to begin`,
+    `Python 3.12.2 / DuckDB 1.0 (Interactive Data REPL)`,
+    `Type "help" or run "SELECT * FROM experience;" to begin.`,
   ]);
+
+  const isOpen = openOverride !== undefined ? openOverride : internalOpen;
+  const setIsOpen = onOpenChange || setInternalOpen;
+
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
 
+  // Global hotkeys (`~` or `` ` ``)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement | null)?.tagName;
-      if (e.key === "`" && tag !== "INPUT" && tag !== "TEXTAREA") {
+      if ((e.key === "`" || e.key === "~") && tag !== "INPUT" && tag !== "TEXTAREA") {
         e.preventDefault();
-        setOpen((v) => !v);
+        setIsOpen(!isOpen);
       }
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [isOpen, setIsOpen]);
+
+  // Prevent background scrolling when terminal modal is open
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen]);
 
   useEffect(() => {
-    if (open) inputRef.current?.focus();
-  }, [open]);
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 50);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "end" });
-  }, [lines, open]);
+  }, [lines, isOpen]);
+
+  // Tab completion helper
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (history.length === 0) return;
+      const nextIndex = historyIndex === -1 ? history.length - 1 : Math.max(0, historyIndex - 1);
+      setHistoryIndex(nextIndex);
+      setInput(history[nextIndex] ?? "");
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (historyIndex === -1) return;
+      const nextIndex = historyIndex + 1;
+      if (nextIndex >= history.length) {
+        setHistoryIndex(-1);
+        setInput("");
+      } else {
+        setHistoryIndex(nextIndex);
+        setInput(history[nextIndex] ?? "");
+      }
+    } else if (e.key === "Tab") {
+      e.preventDefault();
+      const current = input.trim();
+      const commands = [
+        "help",
+        "whoami",
+        "ls",
+        "cd",
+        "cat",
+        "SELECT * FROM experience",
+        "df.describe()",
+        "skills",
+        "certs",
+        "import antigravity",
+        "clear",
+        "exit",
+      ];
+      const match = commands.find((c) => c.startsWith(current));
+      if (match) setInput(match);
+    }
+  };
 
   function run(raw: string) {
     const cmd = raw.trim();
-    const out: string[] = [`$ ${cmd}`];
-    const [head, ...args] = cmd.split(/\s+/);
+    if (!cmd) return;
 
-    switch (head) {
-      case "":
-        break;
-      case "help":
-        out.push(...HELP);
-        break;
-      case "ls":
-        out.push(Object.keys(routes).join("   "));
-        break;
-      case "cd": {
-        const target = routes[args[0] ?? ""];
-        if (!target) out.push(`cd: no such page: ${args[0] ?? ""}`);
-        else {
-          out.push(`navigating to /${args[0]}`);
-          setTimeout(() => {
-            navigate({ to: target });
-            setOpen(false);
-          }, 250);
+    setHistory((prev) => [...prev, cmd]);
+    setHistoryIndex(-1);
+
+    const out: string[] = [`$ ${cmd}`];
+    const lower = cmd.toLowerCase();
+
+    // SQL Parser
+    if (lower.startsWith("select")) {
+      if (lower.includes("from experience")) {
+        let rows = experience;
+        if (lower.includes("where company")) {
+          const match = cmd.match(/company\s*=\s*['"]?([^'"]+)['"]?/i);
+          if (match && match[1]) {
+            const searchCompany = match[1].toLowerCase();
+            rows = experience.filter((e) => e.company.toLowerCase().includes(searchCompany));
+          }
         }
-        break;
+        out.push(
+          "┌──────────────────────┬──────────────────────────────────┬─────────────┬────────────┐",
+          "│ COMPANY              │ TITLE                            │ PERIOD      │ STACK COUNT│",
+          "├──────────────────────┼──────────────────────────────────┼─────────────┼────────────┤",
+        );
+        rows.forEach((r) => {
+          const c = r.company.padEnd(20).slice(0, 20);
+          const t = r.title.padEnd(32).slice(0, 32);
+          const p = `${r.start} - ${r.end}`.padEnd(11).slice(0, 11);
+          const s = `${r.stack.length} tools`.padEnd(10).slice(0, 10);
+          out.push(`│ ${c} │ ${t} │ ${p} │ ${s} │`);
+        });
+        out.push(
+          "└──────────────────────┴──────────────────────────────────┴─────────────┴────────────┘",
+          `(${rows.length} rows returned)`,
+        );
+      } else if (lower.includes("from projects")) {
+        out.push(
+          "┌──────────────────────┬─────────────┬────────────┬──────────────────────────────────┐",
+          "│ SLUG                 │ DOMAIN      │ SCALE      │ PRIMARY STACK                    │",
+          "├──────────────────────┼─────────────┼────────────┼──────────────────────────────────┤",
+        );
+        projects.forEach((p) => {
+          const sl = p.slug.padEnd(20).slice(0, 20);
+          const dm = p.domain.padEnd(11).slice(0, 11);
+          const sc = p.scale.padEnd(10).slice(0, 10);
+          const st = p.stack.slice(0, 3).join(", ").padEnd(32).slice(0, 32);
+          out.push(`│ ${sl} │ ${dm} │ ${sc} │ ${st} │`);
+        });
+        out.push(
+          "└──────────────────────┴─────────────┴────────────┴──────────────────────────────────┘",
+        );
+      } else {
+        out.push(
+          `Query error: table not recognized. Try 'SELECT * FROM experience' or 'SELECT * FROM projects'`,
+        );
       }
-      case "whoami":
-        out.push(`${profile.name} — ${profile.role}`, profile.tagline);
-        break;
-      case "skills": {
-        const n = Number(args[0]) || 5;
-        [...skills]
-          .sort((a, b) => b.y - a.y)
-          .slice(0, n)
-          .forEach((s) => out.push(`  ${s.name.padEnd(18)} ${"█".repeat(Math.round(s.y / 10))} ${s.y}`));
-        break;
+    } else if (lower === "df.describe()") {
+      out.push(
+        "┌──────────────┬──────────────┬──────────────┬──────────────┬──────────────┐",
+        "│ STAT         │ MODELS_PROD  │ ATTRIB_REVENUE│ AVG_WAPE_CUT │ TOTAL_SKUS   │",
+        "├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤",
+        "│ count        │ 12.00        │ $14.80M      │ -31.80%      │ 12,000       │",
+        "│ mean         │ 4.00/yr      │ $4.93M/role  │ -24.50%      │ 4,000/team   │",
+        "│ p95_latency  │ 34.00ms      │ $8.40M peak  │ -58.10%      │ 40,000/day   │",
+        "└──────────────┴──────────────┴──────────────┴──────────────┴──────────────┘",
+      );
+    } else if (lower === "import antigravity") {
+      out.push(
+        "🚀 import antigravity",
+        "Opening Python antigravity module... Flying above the browser canvas!",
+        "“I wrote 20 lines of Python yesterday and suddenly I'm floating in the sky.” — https://xkcd.com/353/",
+      );
+    } else {
+      const parts = cmd.split(/\s+/);
+      const head = parts[0] ?? "";
+      const args = parts.slice(1);
+
+      switch (head.toLowerCase()) {
+        case "help":
+          out.push(...HELP_LINES);
+          break;
+        case "whoami":
+          out.push(
+            `Name:      ${profile.name}`,
+            `Role:      ${profile.role} (${profile.specialty})`,
+            `Tagline:   ${profile.tagline}`,
+            `Location:  ${profile.location}`,
+            `Email:     ${profile.email}`,
+          );
+          break;
+        case "ls":
+          if (args[0] === "projects") {
+            projects.forEach((p) => out.push(`  ${p.slug.padEnd(24)} [${p.domain}] ${p.name}`));
+          } else {
+            out.push("Available routes: " + Object.keys(routes).join("   "));
+            out.push(`Type "ls projects" to see all case study slugs.`);
+          }
+          break;
+        case "cd": {
+          const target = routes[args[0]?.toLowerCase() ?? ""];
+          if (!target) {
+            out.push(`cd: unknown destination: ${args[0] ?? ""}. Try 'cd projects' or 'cd about'`);
+          } else {
+            out.push(`Routing to ${target}...`);
+            setTimeout(() => {
+              navigate({ to: target });
+              setIsOpen(false);
+            }, 300);
+          }
+          break;
+        }
+        case "cat": {
+          const slug = args[0]?.toLowerCase();
+          const p = projects.find((item) => item.slug === slug);
+          if (!p) {
+            out.push(
+              `cat: project not found: ${args[0] ?? ""}. Run 'ls projects' to see valid slugs.`,
+            );
+          } else {
+            out.push(
+              `============================================================`,
+              `CASE STUDY: ${p.name.toUpperCase()}`,
+              `Domain: ${p.domain} | Scale: ${p.scale} | Status: ${p.status}`,
+              `------------------------------------------------------------`,
+              `PROBLEM:  ${p.problem}`,
+              `APPROACH: ${p.approach}`,
+              `IMPACT:   ${p.impact}`,
+              `STACK:    ${p.stack.join(", ")}`,
+              `============================================================`,
+              `To inspect full charts & architecture, visit: /projects/${p.slug}`,
+            );
+          }
+          break;
+        }
+        case "skills": {
+          const n = Number(args[0]) || 6;
+          out.push(`Top ${n} Skills by Production Depth:`);
+          [...skills]
+            .sort((a, b) => b.y - a.y)
+            .slice(0, n)
+            .forEach((s) => {
+              const bars = "█".repeat(Math.round(s.y / 8));
+              out.push(`  ${s.name.padEnd(20)} [${bars.padEnd(13)}] ${s.y}% (${s.x} yrs)`);
+            });
+          break;
+        }
+        case "certs":
+          certifications.forEach((c) =>
+            out.push(`  [${c.year}] ${c.name} — ${c.issuer} (${c.id})`),
+          );
+          break;
+        case "contact":
+          out.push(
+            `Email: ${profile.email}`,
+            `LinkedIn: ${profile.linkedin}`,
+            `GitHub: ${profile.github}`,
+          );
+          break;
+        case "clear":
+          setLines([]);
+          setInput("");
+          return;
+        case "exit":
+        case "quit":
+          setIsOpen(false);
+          setInput("");
+          return;
+        default:
+          out.push(
+            `zsh: command not found: ${head}. Type "help" for a list of supported commands.`,
+          );
       }
-      case "projects":
-        projects.forEach((p) => out.push(`  ${p.slug.padEnd(22)} ${p.domain} · ${p.scale}`));
-        break;
-      case "certs":
-        certifications.forEach((c) => out.push(`  [${c.year}] ${c.name}`));
-        break;
-      case "clear":
-        setLines([]);
-        setInput("");
-        return;
-      case "exit":
-        setOpen(false);
-        setInput("");
-        return;
-      default:
-        out.push(`command not found: ${head} — try "help"`);
     }
 
-    setLines((l) => [...l, ...out]);
+    setLines((prev) => [...prev, ...out]);
     setInput("");
   }
 
   return (
     <>
       <button
-        onClick={() => setOpen(true)}
-        aria-label="Open terminal"
-        className="rounded-md border border-border px-2 py-2 text-muted-foreground transition-colors hover:text-primary"
+        onClick={() => setIsOpen(true)}
+        aria-label="Open terminal drawer"
+        className="rounded-md border border-border bg-surface px-2 py-1.5 text-muted-foreground transition-colors hover:text-primary hover:border-primary/50"
       >
         <TerminalSquare className="h-4 w-4" />
       </button>
 
-      {open && typeof document !== "undefined" && createPortal(
-        <div
-          className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 p-4 sm:items-center"
-          onClick={() => setOpen(false)}
-        >
+      {isOpen &&
+        typeof document !== "undefined" &&
+        createPortal(
           <div
-            onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-2xl overflow-hidden rounded-xl border border-border bg-card shadow-[var(--shadow-lift)]"
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-6 md:p-8 animate-in fade-in duration-150"
+            onClick={() => setIsOpen(false)}
           >
-            <div className="flex items-center gap-2 border-b border-border px-4 py-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-destructive" />
-              <span className="h-2.5 w-2.5 rounded-full bg-accent" />
-              <span className="h-2.5 w-2.5 rounded-full bg-primary" />
-              <span className="ml-2 num text-xs text-muted-foreground">portfolio — zsh</span>
-            </div>
-            <div className="h-72 overflow-y-auto px-4 py-3 font-mono text-[13px] leading-relaxed">
-              {lines.map((l, i) => (
-                <div key={i} className={l.startsWith("$") ? "text-primary" : "text-muted-foreground"}>
-                  {l}
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className={`w-full overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-[#0a0f16] shadow-2xl transition-all duration-200 ${
+                expanded
+                  ? "max-w-5xl h-[88vh] max-h-[850px]"
+                  : "max-w-3xl h-[70vh] sm:h-[60vh] min-h-[340px] max-h-[580px]"
+              } flex flex-col`}
+            >
+              {/* Terminal Window Header Bar */}
+              <div className="flex items-center justify-between border-b border-border bg-[#111822] px-3.5 sm:px-4 py-2.5">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="h-3 w-3 rounded-full bg-red-500/80 cursor-pointer hover:opacity-80 transition-opacity"
+                    onClick={() => setIsOpen(false)}
+                    title="Close"
+                  />
+                  <span className="h-3 w-3 rounded-full bg-amber-500/80" />
+                  <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
+                  <span className="ml-2 sm:ml-3 font-mono text-[11px] sm:text-xs font-semibold text-muted-foreground truncate max-w-[180px] sm:max-w-xs">
+                    data-science-repl ~ {profile.name.toLowerCase().replace(/\s+/g, "")}
+                  </span>
                 </div>
-              ))}
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  run(input);
-                }}
-                className="flex items-center gap-2"
+
+                <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground">
+                  <button
+                    onClick={() => setExpanded(!expanded)}
+                    className="p-1 hover:text-foreground transition-colors"
+                    aria-label="Toggle full height"
+                  >
+                    {expanded ? (
+                      <Minimize2 className="h-3.5 w-3.5" />
+                    ) : (
+                      <Maximize2 className="h-3.5 w-3.5" />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="p-1 hover:text-foreground transition-colors"
+                    aria-label="Close terminal"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Monospace Output Window */}
+              <div
+                className="flex-1 overflow-y-auto overscroll-contain p-3.5 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-foreground/90 selection:bg-primary/30"
+                aria-live="polite"
               >
-                <span className="text-primary">$</span>
-                <input
-                  ref={inputRef}
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  spellCheck={false}
-                  className="flex-1 bg-transparent text-foreground outline-none"
-                />
-              </form>
-              <div ref={endRef} />
+                {lines.map((l, i) => (
+                  <div
+                    key={i}
+                    className={`whitespace-pre-wrap ${
+                      l.startsWith("$")
+                        ? "text-primary font-semibold"
+                        : l.startsWith("┌") ||
+                            l.startsWith("│") ||
+                            l.startsWith("├") ||
+                            l.startsWith("└")
+                          ? "text-teal-300/90 font-mono text-[10px] sm:text-xs overflow-x-auto"
+                          : l.includes("Error") || l.includes("failed")
+                            ? "text-amber-400"
+                            : "text-muted-foreground"
+                    }`}
+                  >
+                    {l}
+                  </div>
+                ))}
+
+                {/* Input Prompt Form */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    run(input);
+                  }}
+                  className="mt-2 flex items-center gap-2"
+                >
+                  <span className="text-primary font-bold select-none">❯</span>
+                  <input
+                    ref={inputRef}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    spellCheck={false}
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    className="flex-1 bg-transparent text-foreground outline-none font-mono text-xs sm:text-sm"
+                    placeholder="Type command or SQL query..."
+                  />
+                </form>
+                <div ref={endRef} />
+              </div>
+
+              {/* Terminal Bottom Status Bar */}
+              <div className="flex items-center justify-between border-t border-border bg-[#111822] px-3.5 sm:px-4 py-1.5 text-[9px] sm:text-[10px] font-mono text-muted-foreground">
+                <span className="truncate mr-2">Tab: autocomplete · ↑↓: history</span>
+                <span className="shrink-0">ESC: close session</span>
+              </div>
             </div>
-          </div>
-        </div>,
-        document.body
-      )}
+          </div>,
+          document.body,
+        )}
     </>
   );
 }

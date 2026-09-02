@@ -80,12 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Data Science Portfolio" },
       {
         name: "description",
-        content: "Production data science: forecasting, causal inference, NLP and vision case studies.",
+        content:
+          "Production data science: forecasting, causal inference, NLP and vision case studies.",
       },
       { property: "og:title", content: "Data Science Portfolio" },
       {
         property: "og:description",
-        content: "Production data science: forecasting, causal inference, NLP and vision case studies.",
+        content:
+          "Production data science: forecasting, causal inference, NLP and vision case studies.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -96,6 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },

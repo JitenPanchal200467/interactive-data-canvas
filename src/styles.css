@@ -82,6 +82,8 @@
 @layer base {
   * {
     border-color: var(--color-border);
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.35 0.03 250) transparent;
   }
 
   html {
@@ -95,6 +97,27 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Custom Sleek Dark Scrollbar for Webkit Browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.3 0.025 250);
+    border-radius: 9999px;
+    border: 2px solid oklch(0.16 0.02 250);
+    transition: background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.78 0.15 180);
+  }
+
   h1,
   h2,
   h3 {
@@ -105,26 +128,26 @@
 
 @utility text-display {
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 7vw, 5.25rem);
-  line-height: 0.98;
-  font-weight: 600;
-  letter-spacing: -0.035em;
-}
-
-@utility text-h1 {
-  font-family: var(--font-display);
-  font-size: clamp(2.1rem, 4vw, 3.1rem);
-  line-height: 1.08;
+  font-size: clamp(1.85rem, 3.6vw, 2.95rem);
+  line-height: 1.16;
   font-weight: 600;
   letter-spacing: -0.025em;
 }
 
-@utility text-h2 {
+@utility text-h1 {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.4vw, 2rem);
-  line-height: 1.15;
+  font-size: clamp(1.65rem, 2.8vw, 2.25rem);
+  line-height: 1.18;
   font-weight: 600;
   letter-spacing: -0.02em;
+}
+
+@utility text-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.9vw, 1.65rem);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.015em;
 }
 
 @utility num {
@@ -156,4 +179,3 @@
     scroll-behavior: auto !important;
   }
 }
-
