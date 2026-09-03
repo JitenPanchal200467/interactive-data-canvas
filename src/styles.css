@@ -77,10 +77,12 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transform: translateZ(0);
+    scrollbar-gutter: stable;
   }
 
   body {
