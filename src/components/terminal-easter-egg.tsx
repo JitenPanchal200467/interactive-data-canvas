@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "motion/react";
 import { TerminalSquare, X, Maximize2, Minimize2 } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { profile, projects, certifications, skills, experience } from "@/data/portfolio";
 
 const routes: Record<string, string> = {
@@ -63,25 +62,10 @@ export function TerminalEasterEgg({
         e.preventDefault();
         setIsOpen(!isOpen);
       }
-      if (e.key === "Escape" && isOpen) {
-        e.preventDefault();
-        setIsOpen(false);
-      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, setIsOpen]);
-
-  // Safe scroll lock with automatic cleanup
-  useEffect(() => {
-    if (isOpen) {
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = originalOverflow;
-      };
-    }
-  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -324,129 +308,112 @@ export function TerminalEasterEgg({
         <TerminalSquare className="h-4 w-4" />
       </button>
 
-      {typeof document !== "undefined" &&
-        createPortal(
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                key="terminal-backdrop"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15, ease: "easeOut" }}
-                className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 md:p-8"
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent
+          className={`p-0 overflow-hidden border border-white/10 bg-[#0a0d14] shadow-2xl ring-1 ring-white/10 ${
+            expanded
+              ? "max-w-5xl h-[88vh] max-h-[850px]"
+              : "max-w-3xl h-[70vh] sm:h-[60vh] min-h-[340px] max-h-[580px]"
+          } flex flex-col`}
+        >
+          <DialogTitle className="sr-only">Interactive Data Science Terminal</DialogTitle>
+          <DialogDescription className="sr-only">
+            Execute python and SQL commands to explore the portfolio data.
+          </DialogDescription>
+
+          {/* Terminal Window Header Bar */}
+          <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#10141f] px-4 py-2.5">
+            <div className="flex items-center gap-2">
+              <span
+                className="h-3 w-3 rounded-full bg-red-500/80 cursor-pointer hover:opacity-80 transition-opacity"
                 onClick={() => setIsOpen(false)}
+                title="Close"
+              />
+              <span className="h-3 w-3 rounded-full bg-amber-500/80" />
+              <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
+              <span className="ml-2 sm:ml-3 font-mono text-[11px] sm:text-xs font-semibold text-slate-400 truncate max-w-[180px] sm:max-w-xs">
+                data-science-repl ~ {profile.name.toLowerCase().replace(/\s+/g, "")}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5 sm:gap-2 text-slate-400">
+              <button
+                onClick={() => setExpanded(!expanded)}
+                className="p-1 hover:text-white transition-colors cursor-pointer"
+                aria-label="Toggle full height"
               >
-                <motion.div
-                  key="terminal-window"
-                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
-                  onClick={(e) => e.stopPropagation()}
-                  className={`w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0a0d14] shadow-2xl ring-1 ring-white/10 ${
-                    expanded
-                      ? "max-w-5xl h-[88vh] max-h-[850px]"
-                      : "max-w-3xl h-[70vh] sm:h-[60vh] min-h-[340px] max-h-[580px]"
-                  } flex flex-col`}
-                >
-                  {/* Terminal Window Header Bar */}
-                  <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#10141f] px-4 py-2.5">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="h-3 w-3 rounded-full bg-red-500/80 cursor-pointer hover:opacity-80 transition-opacity"
-                        onClick={() => setIsOpen(false)}
-                        title="Close"
-                      />
-                      <span className="h-3 w-3 rounded-full bg-amber-500/80" />
-                      <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
-                      <span className="ml-2 sm:ml-3 font-mono text-[11px] sm:text-xs font-semibold text-slate-400 truncate max-w-[180px] sm:max-w-xs">
-                        data-science-repl ~ {profile.name.toLowerCase().replace(/\s+/g, "")}
-                      </span>
-                    </div>
+                {expanded ? (
+                  <Minimize2 className="h-3.5 w-3.5" />
+                ) : (
+                  <Maximize2 className="h-3.5 w-3.5" />
+                )}
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-1 hover:text-white transition-colors cursor-pointer"
+                aria-label="Close terminal"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
 
-                    <div className="flex items-center gap-1.5 sm:gap-2 text-slate-400">
-                      <button
-                        onClick={() => setExpanded(!expanded)}
-                        className="p-1 hover:text-white transition-colors cursor-pointer"
-                        aria-label="Toggle full height"
-                      >
-                        {expanded ? (
-                          <Minimize2 className="h-3.5 w-3.5" />
-                        ) : (
-                          <Maximize2 className="h-3.5 w-3.5" />
-                        )}
-                      </button>
-                      <button
-                        onClick={() => setIsOpen(false)}
-                        className="p-1 hover:text-white transition-colors cursor-pointer"
-                        aria-label="Close terminal"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
+          {/* Monospace Output Window */}
+          <div
+            className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 font-mono text-xs sm:text-[13px] leading-relaxed text-slate-200 selection:bg-indigo-500/30"
+            aria-live="polite"
+          >
+            {lines.map((l, i) => (
+              <div
+                key={i}
+                className={`whitespace-pre-wrap ${
+                  l.startsWith("$")
+                    ? "text-indigo-400 font-semibold"
+                    : l.startsWith("┌") ||
+                        l.startsWith("│") ||
+                        l.startsWith("├") ||
+                        l.startsWith("└")
+                      ? "text-emerald-400 font-mono text-[10px] sm:text-xs overflow-x-auto"
+                      : l.includes("Error") || l.includes("failed")
+                        ? "text-amber-400"
+                        : "text-slate-400"
+                }`}
+              >
+                {l}
+              </div>
+            ))}
 
-                  {/* Monospace Output Window */}
-                  <div
-                    className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 font-mono text-xs sm:text-[13px] leading-relaxed text-slate-200 selection:bg-indigo-500/30"
-                    aria-live="polite"
-                  >
-                    {lines.map((l, i) => (
-                      <div
-                        key={i}
-                        className={`whitespace-pre-wrap ${
-                          l.startsWith("$")
-                            ? "text-indigo-400 font-semibold"
-                            : l.startsWith("┌") ||
-                                l.startsWith("│") ||
-                                l.startsWith("├") ||
-                                l.startsWith("└")
-                              ? "text-emerald-400 font-mono text-[10px] sm:text-xs overflow-x-auto"
-                              : l.includes("Error") || l.includes("failed")
-                                ? "text-amber-400"
-                                : "text-slate-400"
-                        }`}
-                      >
-                        {l}
-                      </div>
-                    ))}
+            {/* Input Prompt Form */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                run(input);
+              }}
+              className="mt-3 flex items-center gap-2"
+            >
+              <span className="text-indigo-400 font-bold select-none">❯</span>
+              <input
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                spellCheck={false}
+                autoCapitalize="off"
+                autoComplete="off"
+                className="flex-1 bg-transparent text-white outline-none font-mono text-xs sm:text-sm placeholder:text-slate-600"
+                placeholder="Type command or SQL query..."
+              />
+            </form>
+            <div ref={endRef} />
+          </div>
 
-                    {/* Input Prompt Form */}
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        run(input);
-                      }}
-                      className="mt-3 flex items-center gap-2"
-                    >
-                      <span className="text-indigo-400 font-bold select-none">❯</span>
-                      <input
-                        ref={inputRef}
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        spellCheck={false}
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        className="flex-1 bg-transparent text-white outline-none font-mono text-xs sm:text-sm placeholder:text-slate-600"
-                        placeholder="Type command or SQL query..."
-                      />
-                    </form>
-                    <div ref={endRef} />
-                  </div>
-
-                  {/* Terminal Bottom Status Bar */}
-                  <div className="flex items-center justify-between border-t border-white/[0.08] bg-[#10141f] px-4 py-2 text-[10px] font-mono text-slate-500">
-                    <span className="truncate mr-2">Tab: autocomplete · ↑↓: history</span>
-                    <span className="shrink-0">ESC: close session</span>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>,
-          document.body,
-        )}
+          {/* Terminal Bottom Status Bar */}
+          <div className="flex items-center justify-between border-t border-white/[0.08] bg-[#10141f] px-4 py-2 text-[10px] font-mono text-slate-500">
+            <span className="truncate mr-2">Tab: autocomplete · ↑↓: history</span>
+            <span className="shrink-0">ESC: close session</span>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
