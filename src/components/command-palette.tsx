@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "@tanstack/react-router";
 import {
   FileText,
@@ -64,21 +65,21 @@ export function CommandPalette({
     onOpenChange(false);
   };
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[150] flex items-start justify-center bg-black/70 p-4 pt-[12vh] backdrop-blur-md animate-in fade-in duration-150"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 md:p-8 animate-in fade-in duration-150"
       onClick={() => onOpenChange(false)}
     >
       <div
-        className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/10 bg-[#0c0f17]/95 shadow-2xl backdrop-blur-2xl animate-in zoom-in-95 duration-150 ring-1 ring-white/5"
+        className="w-full max-w-xl max-h-[82vh] sm:max-h-[75vh] flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0c0f17]/98 shadow-2xl backdrop-blur-2xl animate-in zoom-in-95 duration-150 ring-1 ring-white/10"
         onClick={(e) => e.stopPropagation()}
       >
         <Command className="flex flex-col overflow-hidden bg-transparent">
           <CommandInput placeholder="Type a command or search projects & skills..." />
 
-          <CommandList className="max-h-[380px] overflow-y-auto p-2">
+          <CommandList className="max-h-[360px] sm:max-h-[420px] overflow-y-auto p-2.5">
             <CommandEmpty className="py-8 text-center text-xs text-muted-foreground">
               No matching results found.
             </CommandEmpty>
@@ -195,6 +196,7 @@ export function CommandPalette({
           </div>
         </Command>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
