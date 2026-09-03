@@ -177,40 +177,40 @@ export function DecisionTreeFilter({
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-5 md:p-6 shadow-xl relative overflow-hidden">
+    <div className="rounded-2xl border border-white/[0.08] bg-surface/80 p-6 md:p-8 shadow-xl backdrop-blur-xl relative overflow-hidden">
       {/* Header with Classification badge and Reset Escape Hatch */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4 mb-5">
-        <div className="flex items-center gap-2.5">
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-primary/15 text-primary border border-primary/30">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] pb-5 mb-6">
+        <div className="flex items-center gap-3">
+          <span className="grid h-8 w-8 place-items-center rounded-xl bg-primary/10 text-primary border border-primary/25">
             <GitBranch className="h-4 w-4" />
           </span>
           <div>
-            <div className="flex items-center gap-2">
-              <h2 className="font-display font-semibold text-sm sm:text-base text-foreground">
+            <div className="flex items-center gap-2.5">
+              <h2 className="font-display font-bold text-base sm:text-lg text-white">
                 Decision-Tree Project Navigator
               </h2>
-              <span className="num label-caps text-[9px] px-1.5 py-0.5 rounded bg-primary/10 text-primary border border-primary/20">
-                DecisionTreeClassifier
+              <span className="num label-caps text-[9px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/25 font-semibold">
+                Interactive Classifier
               </span>
             </div>
-            <p className="text-xs text-muted-foreground hidden sm:block">
-              Traverse the evaluation splits to classify case studies by your hiring focus.
+            <p className="text-xs text-slate-400 hidden sm:block mt-0.5">
+              Filter case studies by modeling paradigm, system constraint, or business outcome.
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {selectedPath && (
             <button
               onClick={handleReset}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground hover:border-primary/50"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs text-slate-300 transition-colors hover:text-white hover:bg-white/[0.08]"
             >
-              <RefreshCw className="h-3 w-3" />
+              <RefreshCw className="h-3.5 w-3.5" />
               <span>Show All ({totalProjectsCount})</span>
             </button>
           )}
-          <span className="num rounded-lg border border-primary/30 bg-primary/10 px-2.5 py-1 font-mono text-xs font-semibold text-primary">
-            {matchedProjectsCount} / {totalProjectsCount} Case Studies
+          <span className="num rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-xs font-semibold text-emerald-400">
+            {matchedProjectsCount} / {totalProjectsCount} Matched
           </span>
         </div>
       </div>
@@ -219,43 +219,43 @@ export function DecisionTreeFilter({
       <div className="space-y-6">
         {/* Node Split 1 (Root Level) */}
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="h-2 w-2 rounded-full bg-primary" />
-            <span className="label-caps font-medium text-xs text-foreground">
+          <div className="flex items-center gap-2 mb-3.5">
+            <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_6px_rgba(99,102,241,0.8)]" />
+            <span className="label-caps font-semibold text-xs text-slate-300">
               Split 1: {decisionTree.question}
             </span>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-3.5 sm:grid-cols-3">
             {decisionTree.options.map((opt) => {
               const isSelected = level1 === opt.pathCode;
               return (
                 <button
                   key={opt.pathCode}
                   onClick={() => handleSelectLevel1(opt.pathCode)}
-                  className={`group relative text-left rounded-xl border p-4 transition-all duration-200 ${
+                  className={`group relative text-left rounded-xl border p-4 sm:p-5 transition-all duration-200 cursor-pointer ${
                     isSelected
-                      ? "border-primary bg-primary/10 shadow-[0_0_15px_rgba(61,219,198,0.15)] ring-1 ring-primary"
-                      : "border-border bg-surface/50 hover:bg-surface-raised hover:border-border/80"
+                      ? "border-primary bg-primary/15 shadow-[0_0_20px_rgba(99,102,241,0.2)] ring-1 ring-primary"
+                      : "border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/20"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <span
-                      className={`font-display text-sm font-semibold transition-colors ${
-                        isSelected ? "text-primary" : "text-foreground group-hover:text-primary"
+                      className={`font-display text-sm sm:text-base font-bold transition-colors ${
+                        isSelected ? "text-primary" : "text-white group-hover:text-primary"
                       }`}
                     >
                       {opt.label}
                     </span>
                     {isSelected ? (
-                      <span className="grid h-4 w-4 place-items-center rounded-full bg-primary text-primary-foreground">
+                      <span className="grid h-4 w-4 place-items-center rounded-full bg-primary text-white shrink-0">
                         <Check className="h-2.5 w-2.5 stroke-[3]" />
                       </span>
                     ) : (
-                      <ChevronRight className="h-4 w-4 text-muted-foreground/40 group-hover:text-muted-foreground group-hover:translate-x-0.5 transition-all" />
+                      <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-slate-300 group-hover:translate-x-0.5 transition-all shrink-0" />
                     )}
                   </div>
-                  <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+                  <p className="mt-2 text-xs text-slate-400 leading-relaxed">
                     {opt.description}
                   </p>
                 </button>
@@ -264,44 +264,44 @@ export function DecisionTreeFilter({
           </div>
         </div>
 
-        {/* Node Split 2 (Child Level - Slides in on Selection) */}
+        {/* Node Split 2 (Child Level) */}
         {activeLevel1Option?.next && (
-          <div className="border-t border-dashed border-border/80 pt-5 animate-in fade-in slide-in-from-top-3 duration-200">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="h-2 w-2 rounded-full bg-accent" />
-              <span className="label-caps font-medium text-xs text-foreground">
+          <div className="border-t border-dashed border-white/10 pt-6 animate-in fade-in slide-in-from-top-3 duration-200">
+            <div className="flex items-center gap-2 mb-3.5">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" />
+              <span className="label-caps font-semibold text-xs text-slate-300">
                 Split 2 ({activeLevel1Option.label}): {activeLevel1Option.next.question}
               </span>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+            <div className="grid gap-3.5 sm:grid-cols-2 md:grid-cols-3">
               {activeLevel1Option.next.options.map((opt) => {
                 const isSelected = level2 === opt.pathCode;
                 return (
                   <button
                     key={opt.pathCode}
                     onClick={() => handleSelectLevel2(opt.pathCode, opt.predicate)}
-                    className={`group relative text-left rounded-xl border p-3.5 transition-all duration-200 ${
+                    className={`group relative text-left rounded-xl border p-4 transition-all duration-200 cursor-pointer ${
                       isSelected
-                        ? "border-accent bg-accent/10 shadow-[0_0_15px_rgba(245,181,68,0.15)] ring-1 ring-accent"
-                        : "border-border bg-surface/50 hover:bg-surface-raised hover:border-accent/40"
+                        ? "border-emerald-500 bg-emerald-500/15 shadow-[0_0_20px_rgba(16,185,129,0.2)] ring-1 ring-emerald-500"
+                        : "border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.06] hover:border-emerald-500/40"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <span
-                        className={`font-display text-sm font-semibold transition-colors ${
-                          isSelected ? "text-accent" : "text-foreground group-hover:text-accent"
+                        className={`font-display text-sm font-bold transition-colors ${
+                          isSelected ? "text-emerald-400" : "text-white group-hover:text-emerald-400"
                         }`}
                       >
                         {opt.label}
                       </span>
                       {isSelected && (
-                        <span className="grid h-4 w-4 place-items-center rounded-full bg-accent text-accent-foreground">
+                        <span className="grid h-4 w-4 place-items-center rounded-full bg-emerald-400 text-black shrink-0">
                           <Check className="h-2.5 w-2.5 stroke-[3]" />
                         </span>
                       )}
                     </div>
-                    <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                    <p className="mt-1.5 text-xs text-slate-400 leading-relaxed">
                       {opt.description}
                     </p>
                   </button>
@@ -313,15 +313,15 @@ export function DecisionTreeFilter({
       </div>
 
       {/* Path Breadcrumb Ribbon */}
-      <div className="mt-5 flex items-center gap-2 border-t border-border pt-3 text-xs font-mono text-muted-foreground">
-        <span className="text-primary font-semibold">Tree Path:</span>
-        <span className="rounded bg-surface-raised px-2 py-0.5 text-foreground border border-border">
+      <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-white/[0.06] pt-4 text-xs font-mono text-slate-400">
+        <span className="text-primary font-semibold">Classification Path:</span>
+        <span className="rounded-lg bg-white/[0.04] px-2.5 py-0.5 text-slate-300 border border-white/10">
           root
         </span>
         {level1 && (
           <>
             <span>→</span>
-            <span className="rounded bg-primary/15 text-primary border border-primary/30 px-2 py-0.5 font-medium">
+            <span className="rounded-lg bg-primary/15 text-primary border border-primary/30 px-2.5 py-0.5 font-medium">
               {activeLevel1Option?.label}
             </span>
           </>
@@ -329,7 +329,7 @@ export function DecisionTreeFilter({
         {level2 && (
           <>
             <span>→</span>
-            <span className="rounded bg-accent/15 text-accent border border-accent/30 px-2 py-0.5 font-medium">
+            <span className="rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 font-medium">
               {activeLevel2Option?.label}
             </span>
           </>

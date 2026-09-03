@@ -316,7 +316,7 @@ export function TerminalEasterEgg({
       <button
         onClick={() => setIsOpen(true)}
         aria-label="Open terminal drawer"
-        className="rounded-md border border-border bg-surface px-2 py-1.5 text-muted-foreground transition-colors hover:text-primary hover:border-primary/50"
+        className="rounded-lg border border-white/10 bg-white/[0.03] p-2 text-slate-400 transition-colors hover:text-white hover:border-white/20 hover:bg-white/[0.06]"
       >
         <TerminalSquare className="h-4 w-4" />
       </button>
@@ -330,14 +330,14 @@ export function TerminalEasterEgg({
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className={`w-full overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-[#0a0f16] shadow-2xl transition-all duration-200 ${
+              className={`w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0a0d14] shadow-2xl transition-all duration-200 ring-1 ring-white/5 ${
                 expanded
                   ? "max-w-5xl h-[88vh] max-h-[850px]"
                   : "max-w-3xl h-[70vh] sm:h-[60vh] min-h-[340px] max-h-[580px]"
               } flex flex-col`}
             >
               {/* Terminal Window Header Bar */}
-              <div className="flex items-center justify-between border-b border-border bg-[#111822] px-3.5 sm:px-4 py-2.5">
+              <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#10141f] px-4 py-2.5">
                 <div className="flex items-center gap-2">
                   <span
                     className="h-3 w-3 rounded-full bg-red-500/80 cursor-pointer hover:opacity-80 transition-opacity"
@@ -346,15 +346,15 @@ export function TerminalEasterEgg({
                   />
                   <span className="h-3 w-3 rounded-full bg-amber-500/80" />
                   <span className="h-3 w-3 rounded-full bg-emerald-500/80" />
-                  <span className="ml-2 sm:ml-3 font-mono text-[11px] sm:text-xs font-semibold text-muted-foreground truncate max-w-[180px] sm:max-w-xs">
+                  <span className="ml-2 sm:ml-3 font-mono text-[11px] sm:text-xs font-semibold text-slate-400 truncate max-w-[180px] sm:max-w-xs">
                     data-science-repl ~ {profile.name.toLowerCase().replace(/\s+/g, "")}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-slate-400">
                   <button
                     onClick={() => setExpanded(!expanded)}
-                    className="p-1 hover:text-foreground transition-colors"
+                    className="p-1 hover:text-white transition-colors"
                     aria-label="Toggle full height"
                   >
                     {expanded ? (
@@ -365,7 +365,7 @@ export function TerminalEasterEgg({
                   </button>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="p-1 hover:text-foreground transition-colors"
+                    className="p-1 hover:text-white transition-colors"
                     aria-label="Close terminal"
                   >
                     <X className="h-4 w-4" />
@@ -375,7 +375,7 @@ export function TerminalEasterEgg({
 
               {/* Monospace Output Window */}
               <div
-                className="flex-1 overflow-y-auto overscroll-contain p-3.5 sm:p-5 font-mono text-xs sm:text-[13px] leading-relaxed text-foreground/90 selection:bg-primary/30"
+                className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 font-mono text-xs sm:text-[13px] leading-relaxed text-slate-200 selection:bg-indigo-500/30"
                 aria-live="polite"
               >
                 {lines.map((l, i) => (
@@ -383,15 +383,15 @@ export function TerminalEasterEgg({
                     key={i}
                     className={`whitespace-pre-wrap ${
                       l.startsWith("$")
-                        ? "text-primary font-semibold"
+                        ? "text-indigo-400 font-semibold"
                         : l.startsWith("┌") ||
                             l.startsWith("│") ||
                             l.startsWith("├") ||
                             l.startsWith("└")
-                          ? "text-teal-300/90 font-mono text-[10px] sm:text-xs overflow-x-auto"
+                          ? "text-emerald-400 font-mono text-[10px] sm:text-xs overflow-x-auto"
                           : l.includes("Error") || l.includes("failed")
                             ? "text-amber-400"
-                            : "text-muted-foreground"
+                            : "text-slate-400"
                     }`}
                   >
                     {l}
@@ -404,9 +404,9 @@ export function TerminalEasterEgg({
                     e.preventDefault();
                     run(input);
                   }}
-                  className="mt-2 flex items-center gap-2"
+                  className="mt-3 flex items-center gap-2"
                 >
-                  <span className="text-primary font-bold select-none">❯</span>
+                  <span className="text-indigo-400 font-bold select-none">❯</span>
                   <input
                     ref={inputRef}
                     value={input}
@@ -415,7 +415,7 @@ export function TerminalEasterEgg({
                     spellCheck={false}
                     autoCapitalize="off"
                     autoComplete="off"
-                    className="flex-1 bg-transparent text-foreground outline-none font-mono text-xs sm:text-sm"
+                    className="flex-1 bg-transparent text-white outline-none font-mono text-xs sm:text-sm placeholder:text-slate-600"
                     placeholder="Type command or SQL query..."
                   />
                 </form>
@@ -423,7 +423,7 @@ export function TerminalEasterEgg({
               </div>
 
               {/* Terminal Bottom Status Bar */}
-              <div className="flex items-center justify-between border-t border-border bg-[#111822] px-3.5 sm:px-4 py-1.5 text-[9px] sm:text-[10px] font-mono text-muted-foreground">
+              <div className="flex items-center justify-between border-t border-white/[0.08] bg-[#10141f] px-4 py-2 text-[10px] font-mono text-slate-500">
                 <span className="truncate mr-2">Tab: autocomplete · ↑↓: history</span>
                 <span className="shrink-0">ESC: close session</span>
               </div>

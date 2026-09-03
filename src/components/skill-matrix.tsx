@@ -20,53 +20,53 @@ const groupConfig: Record<
   { stroke: string; fill: string; text: string; bg: string; border: string; icon: any }
 > = {
   Modeling: {
-    stroke: "#3ddbc7",
-    fill: "rgba(61, 219, 199, 0.22)",
-    text: "#3ddbc7",
-    bg: "rgba(61, 219, 199, 0.08)",
-    border: "rgba(61, 219, 199, 0.3)",
+    stroke: "#6366f1",
+    fill: "rgba(99, 102, 241, 0.22)",
+    text: "#818cf8",
+    bg: "rgba(99, 102, 241, 0.12)",
+    border: "rgba(99, 102, 241, 0.35)",
     icon: Brain,
   },
   Engineering: {
-    stroke: "#f5b544",
-    fill: "rgba(245, 181, 68, 0.22)",
-    text: "#f5b544",
-    bg: "rgba(245, 181, 68, 0.08)",
-    border: "rgba(245, 181, 68, 0.3)",
+    stroke: "#10b981",
+    fill: "rgba(16, 185, 129, 0.22)",
+    text: "#34d399",
+    bg: "rgba(16, 185, 129, 0.12)",
+    border: "rgba(16, 185, 129, 0.35)",
     icon: Layers,
   },
   Language: {
-    stroke: "#ff7a66",
-    fill: "rgba(255, 122, 102, 0.22)",
-    text: "#ff7a66",
-    bg: "rgba(255, 122, 102, 0.08)",
-    border: "rgba(255, 122, 102, 0.3)",
+    stroke: "#06b6d4",
+    fill: "rgba(6, 182, 212, 0.22)",
+    text: "#22d3ee",
+    bg: "rgba(6, 182, 212, 0.12)",
+    border: "rgba(6, 182, 212, 0.35)",
     icon: Code2,
   },
   Cloud: {
-    stroke: "#7aa2f7",
-    fill: "rgba(122, 162, 247, 0.22)",
-    text: "#7aa2f7",
-    bg: "rgba(122, 162, 247, 0.08)",
-    border: "rgba(122, 162, 247, 0.3)",
+    stroke: "#8b5cf6",
+    fill: "rgba(139, 92, 246, 0.22)",
+    text: "#a78bfa",
+    bg: "rgba(139, 92, 246, 0.12)",
+    border: "rgba(139, 92, 246, 0.35)",
     icon: Cloud,
   },
   Viz: {
-    stroke: "#9ece6a",
-    fill: "rgba(158, 206, 106, 0.22)",
-    text: "#9ece6a",
-    bg: "rgba(158, 206, 106, 0.08)",
-    border: "rgba(158, 206, 106, 0.3)",
+    stroke: "#f59e0b",
+    fill: "rgba(245, 158, 11, 0.22)",
+    text: "#fbbf24",
+    bg: "rgba(245, 158, 11, 0.12)",
+    border: "rgba(245, 158, 11, 0.35)",
     icon: LineChart,
   },
 };
 
 const defaultColor = {
-  stroke: "#3ddbc7",
-  fill: "rgba(61, 219, 199, 0.22)",
-  text: "#3ddbc7",
-  bg: "rgba(61, 219, 199, 0.08)",
-  border: "rgba(61, 219, 199, 0.3)",
+  stroke: "#6366f1",
+  fill: "rgba(99, 102, 241, 0.22)",
+  text: "#818cf8",
+  bg: "rgba(99, 102, 241, 0.12)",
+  border: "rgba(99, 102, 241, 0.35)",
   icon: Sparkles,
 };
 
@@ -98,20 +98,20 @@ export function SkillMatrix() {
     H - PAD_BOTTOM - ((y - minY) / (maxY - minY)) * (H - PAD_TOP - PAD_BOTTOM);
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-5 sm:p-7 shadow-xl space-y-6">
+    <div className="rounded-2xl border border-white/[0.08] bg-surface/80 p-6 sm:p-8 shadow-xl backdrop-blur-xl space-y-7">
       {/* Header Controls: Filters & View Switcher */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-5">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/[0.06] pb-6">
         {/* Filter Category Pills */}
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-          <span className="label-caps text-xs text-muted-foreground mr-1 hidden sm:inline">
+          <span className="label-caps text-xs text-slate-400 mr-1 hidden sm:inline font-semibold">
             Category:
           </span>
           <button
             onClick={() => setActiveGroup(null)}
-            className={`rounded-full border px-3 py-1 text-xs font-medium transition-all ${
+            className={`rounded-full border px-3.5 py-1 text-xs font-semibold transition-all cursor-pointer ${
               activeGroup === null
-                ? "border-primary bg-primary/20 text-primary shadow-[0_0_12px_rgba(61,219,198,0.25)]"
-                : "border-border text-muted-foreground hover:text-foreground hover:bg-surface-raised"
+                ? "border-primary bg-primary/20 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]"
+                : "border-white/10 text-slate-400 hover:text-white hover:bg-white/[0.04]"
             }`}
           >
             All Skills ({skills.length})
@@ -123,12 +123,12 @@ export function SkillMatrix() {
               <button
                 key={g}
                 onClick={() => setActiveGroup(isSelected ? null : g)}
-                className="rounded-full border px-3 py-1 text-xs font-medium transition-all flex items-center gap-1.5"
+                className="rounded-full border px-3.5 py-1 text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer"
                 style={{
-                  borderColor: isSelected ? conf.stroke : "var(--color-border)",
+                  borderColor: isSelected ? conf.stroke : "rgba(255, 255, 255, 0.08)",
                   backgroundColor: isSelected ? conf.bg : "transparent",
-                  color: isSelected ? conf.text : "var(--color-muted-foreground)",
-                  boxShadow: isSelected ? `0 0 12px ${conf.fill}` : "none",
+                  color: isSelected ? conf.text : "rgba(148, 163, 184, 0.9)",
+                  boxShadow: isSelected ? `0 0 15px ${conf.fill}` : "none",
                 }}
               >
                 <span className="h-2 w-2 rounded-full" style={{ backgroundColor: conf.stroke }} />
@@ -139,13 +139,13 @@ export function SkillMatrix() {
         </div>
 
         {/* View Mode Toggle */}
-        <div className="flex items-center gap-1 rounded-xl border border-border bg-surface p-1 self-start md:self-auto">
+        <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-white/[0.02] p-1 self-start md:self-auto">
           <button
             onClick={() => setViewMode("cards")}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
+            className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
               viewMode === "cards"
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-primary text-white shadow-md shadow-indigo-500/20"
+                : "text-slate-400 hover:text-white"
             }`}
           >
             <LayoutGrid className="h-3.5 w-3.5" />
@@ -153,10 +153,10 @@ export function SkillMatrix() {
           </button>
           <button
             onClick={() => setViewMode("chart")}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
+            className={`flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
               viewMode === "chart"
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-primary text-white shadow-md shadow-indigo-500/20"
+                : "text-slate-400 hover:text-white"
             }`}
           >
             <Activity className="h-3.5 w-3.5" />
@@ -165,37 +165,29 @@ export function SkillMatrix() {
         </div>
       </div>
 
-      {/* VIEW 1: STRUCTURED CATEGORIZED GRID (Clean, legible, with direct official docs link) */}
+      {/* VIEW 1: STRUCTURED INTERACTIVE CARDS */}
       {viewMode === "cards" && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-in fade-in duration-200">
           {filteredSkills.map((s) => {
             const conf = groupConfig[s.group] ?? defaultColor;
             const IconComponent = conf.icon;
-            const isHovered = hoveredSkill?.name === s.name;
 
             return (
               <div
                 key={s.name}
-                onMouseEnter={() => setHoveredSkill(s)}
-                onMouseLeave={() => setHoveredSkill(null)}
-                className={`group/card flex flex-col justify-between rounded-xl border p-4 transition-all duration-200 ${
-                  isHovered
-                    ? "border-primary bg-surface shadow-md ring-1 ring-primary/40"
-                    : "border-border/80 bg-surface/40 hover:border-border hover:bg-surface/70"
-                }`}
+                className="group/card flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:bg-white/[0.04] hover:shadow-lg"
               >
                 <div>
-                  {/* Skill Header */}
-                  <div className="flex items-start justify-between gap-2">
+                  {/* Card Header: Icon + Title + Official Link */}
+                  <div className="flex items-start justify-between gap-3">
                     <a
                       href={s.officialUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-2 group-hover/card:opacity-95"
-                      title={`Open official ${s.name} documentation in new tab`}
+                      className="flex items-center gap-2.5 group-hover/card:opacity-95"
                     >
                       <div
-                        className="grid h-8 w-8 place-items-center rounded-lg border text-sm transition-transform group-hover/card:scale-105"
+                        className="grid h-9 w-9 place-items-center rounded-xl border text-base shrink-0"
                         style={{
                           backgroundColor: conf.bg,
                           borderColor: conf.border,
@@ -206,12 +198,12 @@ export function SkillMatrix() {
                       </div>
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <h4 className="font-display text-sm font-semibold text-foreground group-hover/card:text-primary transition-colors">
+                          <h4 className="font-display text-sm font-bold text-white group-hover/card:text-primary transition-colors">
                             {s.name}
                           </h4>
-                          <ExternalLink className="h-3 w-3 text-muted-foreground opacity-60 group-hover/card:opacity-100 group-hover/card:text-primary transition-opacity" />
+                          <ExternalLink className="h-3 w-3 text-slate-500 opacity-60 group-hover/card:opacity-100 group-hover/card:text-primary transition-opacity" />
                         </div>
-                        <span className="label-caps text-[9px]" style={{ color: conf.text }}>
+                        <span className="label-caps text-[9px] font-semibold" style={{ color: conf.text }}>
                           {s.group}
                         </span>
                       </div>
@@ -226,12 +218,12 @@ export function SkillMatrix() {
                   </div>
 
                   {/* Production Depth Meter */}
-                  <div className="mt-3 space-y-1">
-                    <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground">
+                  <div className="mt-4 space-y-1.5">
+                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
                       <span>Production Mastery</span>
-                      <span>{s.x} Years Active</span>
+                      <span className="text-white font-semibold">{s.x} Years Active</span>
                     </div>
-                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-raised border border-border/60">
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.06] border border-white/[0.06]">
                       <div
                         className="h-full rounded-full transition-all duration-500"
                         style={{
@@ -245,7 +237,7 @@ export function SkillMatrix() {
                 </div>
 
                 {/* Card Footer: Official Docs Link + Applied Project Case Studies */}
-                <div className="mt-4 border-t border-border/70 pt-3 space-y-2">
+                <div className="mt-5 border-t border-white/[0.06] pt-3.5 space-y-2">
                   <div className="flex items-center justify-between text-[10px] font-mono">
                     <a
                       href={s.officialUrl}
@@ -256,8 +248,8 @@ export function SkillMatrix() {
                       <BookOpen className="h-3 w-3" />
                       <span>Official Docs ↗</span>
                     </a>
-                    <span className="text-muted-foreground">
-                      {s.projects.length} Shipped In Prod
+                    <span className="text-slate-500">
+                      {s.projects.length} In Production
                     </span>
                   </div>
 
@@ -267,7 +259,7 @@ export function SkillMatrix() {
                         key={slug}
                         to="/projects/$slug"
                         params={{ slug }}
-                        className="inline-flex items-center gap-1 rounded bg-surface-raised px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground border border-border hover:text-primary hover:border-primary/50 transition-colors"
+                        className="inline-flex items-center gap-1 rounded-md bg-white/[0.03] px-2 py-0.5 font-mono text-[10px] text-slate-300 border border-white/[0.08] hover:text-primary hover:border-primary/50 transition-colors"
                       >
                         <span>{slug}</span>
                         <ArrowRight className="h-2.5 w-2.5 opacity-60" />

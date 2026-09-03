@@ -72,11 +72,11 @@ function ContactPage() {
     <SiteShell>
       <Section
         eyebrow="Contact & Collaboration"
-        title="Let's Talk About Your Data Problem"
-        lead="Open to senior data science roles, technical advising on forecasting architectures, and guest speaking."
+        title="Let's Connect & Collaborate"
+        lead="Open to machine learning engineering roles, AI contract intelligence consulting, and technical collaboration."
       >
         {/* Direct Link Contact Cards */}
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <ContactCard
             icon={<Mail className="h-4 w-4" />}
             label="Direct Email"
@@ -103,26 +103,26 @@ function ContactPage() {
         </div>
 
         {/* Contact Form & Response Commitment */}
-        <div className="mt-12 grid gap-8 md:grid-cols-5">
+        <div className="mt-14 grid gap-8 md:grid-cols-5">
           {/* Form */}
-          <div className="md:col-span-3 rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-md">
-            <h2 className="font-display text-xl font-semibold text-foreground">
+          <div className="md:col-span-3 rounded-2xl border border-white/[0.08] bg-surface/80 p-7 sm:p-9 shadow-lg backdrop-blur-xl">
+            <h2 className="font-display text-xl font-bold text-white">
               Send a Direct Message
             </h2>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Direct inbox delivery — no recruiter spam.
+            <p className="mt-1 text-xs text-slate-400">
+              Direct inbox delivery — message arrives directly in my personal inbox.
             </p>
 
             {submitted ? (
-              <div className="mt-8 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-6 text-center animate-in fade-in zoom-in-95 duration-200">
-                <CheckCircle2 className="mx-auto h-10 w-10 text-emerald-400 mb-3" />
-                <h3 className="font-display font-semibold text-lg text-foreground">
+              <div className="mt-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-7 text-center animate-in fade-in zoom-in-95 duration-200">
+                <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-400 mb-3" />
+                <h3 className="font-display font-bold text-xl text-white">
                   Message Dispatched!
                 </h3>
-                <p className="mt-2 text-sm text-muted-foreground max-w-sm mx-auto">
-                  Thank you, <span className="text-foreground font-semibold">{formData.name}</span>.
+                <p className="mt-2 text-sm text-slate-300 max-w-sm mx-auto">
+                  Thank you, <span className="text-white font-bold">{formData.name}</span>.
                   I have received your note and will reply to{" "}
-                  <span className="text-primary font-mono">{formData.email}</span> within 24 hours.
+                  <span className="text-primary font-mono font-semibold">{formData.email}</span> within 24 hours.
                 </p>
                 <button
                   onClick={() => {
@@ -135,14 +135,14 @@ function ContactPage() {
                       honeypot: "",
                     });
                   }}
-                  className="mt-6 rounded-lg bg-surface border border-border px-4 py-2 text-xs font-mono text-foreground hover:bg-surface-raised transition-colors"
+                  className="mt-6 rounded-xl bg-white/[0.06] border border-white/10 px-5 py-2.5 text-xs font-mono text-white hover:bg-white/[0.1] transition-colors"
                 >
                   Send another message
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-                {/* Honeypot field (hidden from real users) */}
+              <form onSubmit={handleSubmit} className="mt-7 space-y-5">
+                {/* Honeypot field */}
                 <input
                   type="text"
                   name="company_trap"
@@ -155,74 +155,74 @@ function ContactPage() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <label className="label-caps text-[10px] text-muted-foreground">
+                    <label className="label-caps text-[10px] text-slate-400 font-semibold">
                       Your Name <span className="text-primary">*</span>
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Elena Rostova"
+                      placeholder="e.g. Alex Johnson"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none focus:border-primary transition-colors"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-600 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="label-caps text-[10px] text-muted-foreground">
+                    <label className="label-caps text-[10px] text-slate-400 font-semibold">
                       Your Email <span className="text-primary">*</span>
                     </label>
                     <input
                       type="email"
                       required
-                      placeholder="elena@company.com"
+                      placeholder="alex@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none focus:border-primary transition-colors"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-600 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="label-caps text-[10px] text-muted-foreground">
+                  <label className="label-caps text-[10px] text-slate-400 font-semibold">
                     Subject / Topic
                   </label>
                   <select
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-foreground outline-none focus:border-primary transition-colors"
+                    className="w-full rounded-xl border border-white/10 bg-[#121622] px-4 py-3 text-sm text-white outline-none focus:border-primary transition-colors"
                   >
                     <option value="Hiring / Role Opportunity">
-                      Full-time Senior Data Scientist Opportunity
+                      Full-time Data Science / ML Engineering Role
                     </option>
                     <option value="Consulting / Architecture Review">
-                      Technical Consulting / Forecasting Review
+                      Technical Advising / AI Review
                     </option>
-                    <option value="Speaking / Workshop">Guest Lecture / Workshop</option>
-                    <option value="Other">General Discussion</option>
+                    <option value="Speaking / Workshop">Workshop / Event Collaboration</option>
+                    <option value="Other">General Inquiry</option>
                   </select>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="label-caps text-[10px] text-muted-foreground">
+                  <label className="label-caps text-[10px] text-slate-400 font-semibold">
                     Message / Context <span className="text-primary">*</span>
                   </label>
                   <textarea
                     rows={4}
                     required
-                    placeholder="Describe the decision or system you are trying to build, existing data scale, and desired timeline..."
+                    placeholder="Describe the system or project you are building, timeline, or role details..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 outline-none focus:border-primary transition-colors"
+                    className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-600 outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                   />
                 </div>
 
-                {error && <p className="text-xs text-destructive">{error}</p>}
+                {error && <p className="text-xs text-rose-400">{error}</p>}
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:opacity-90 disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-500/25 transition-all hover:bg-primary/90 disabled:opacity-50 cursor-pointer"
                 >
                   <Send className="h-4 w-4" />
                   <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
@@ -233,29 +233,28 @@ function ContactPage() {
 
           {/* Guidelines & SLA */}
           <div className="md:col-span-2 space-y-4">
-            <div className="rounded-2xl border border-border bg-surface/50 p-6">
+            <div className="rounded-2xl border border-white/[0.08] bg-surface/70 p-6 sm:p-7 backdrop-blur-xl">
               <div className="flex items-center gap-2 mb-2 text-primary">
                 <Clock className="h-4 w-4" />
-                <h3 className="font-display font-semibold text-sm text-foreground">
+                <h3 className="font-display font-bold text-sm text-white">
                   Response Commitment
                 </h3>
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                I reply to all serious inquiries within 24 hours. If you are reaching out about a
-                role, including team size, tech stack, and current data maturity helps kick off the
-                conversation faster.
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                I reply to all serious inquiries within 24 hours. If reaching out about a
+                role, including team size, tech stack, and scope is greatly appreciated.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-border bg-surface/50 p-6">
-              <div className="flex items-center gap-2 mb-2 text-accent">
+            <div className="rounded-2xl border border-white/[0.08] bg-surface/70 p-6 sm:p-7 backdrop-blur-xl">
+              <div className="flex items-center gap-2 mb-2 text-emerald-400">
                 <Sparkles className="h-4 w-4" />
-                <h3 className="font-display font-semibold text-sm text-foreground">
-                  Fastest Route
+                <h3 className="font-display font-bold text-sm text-white">
+                  Direct Email
                 </h3>
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Prefer email directly? Send a note to:
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Feel free to email directly at:
               </p>
               <a
                 href={`mailto:${profile.email}`}
@@ -288,12 +287,12 @@ function ContactCard({
         {icon}
         <span className="label-caps">{label}</span>
       </div>
-      <p className="mt-2 text-sm font-medium text-foreground">{value}</p>
+      <p className="mt-2 text-sm font-semibold text-white">{value}</p>
     </>
   );
 
   const className =
-    "block rounded-2xl border border-border bg-card p-5 transition-all hover:border-primary/60 hover:shadow-md";
+    "block rounded-2xl border border-white/[0.08] bg-surface/80 p-5 backdrop-blur-xl transition-all hover:border-primary/50 hover:shadow-lg";
 
   return href ? (
     <a href={href} target="_blank" rel="noreferrer" className={className}>

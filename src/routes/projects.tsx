@@ -121,67 +121,67 @@ function ProjectCard({ project }: { project: Project }) {
   const isProd = project.scale === "Production";
 
   return (
-    <article className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/60 hover:shadow-[0_16px_36px_rgba(61,219,198,0.14)]">
+    <article className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.08] bg-surface/80 shadow-lg backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50 hover:shadow-[0_20px_40px_rgba(99,102,241,0.15)]">
       <div>
         {/* Card Header & Status */}
-        <div className="flex items-center justify-between border-b border-border/80 bg-surface/40 px-5 py-3.5">
+        <div className="flex items-center justify-between border-b border-white/[0.06] bg-white/[0.02] px-6 py-4">
           <div className="flex items-center gap-2">
             <span
               className={`h-2 w-2 rounded-full ${
                 isProd
-                  ? "bg-primary shadow-[0_0_8px_rgba(61,219,198,0.8)]"
-                  : "bg-accent shadow-[0_0_8px_rgba(245,181,68,0.8)]"
+                  ? "bg-emerald-400 shadow-[0_0_8px_#34d399]"
+                  : "bg-indigo-400 shadow-[0_0_8px_#818cf8]"
               }`}
             />
-            <span className="label-caps text-[10px] font-semibold text-foreground">
+            <span className="label-caps text-[10px] font-semibold text-white">
               {project.domain} · {project.scale}
             </span>
           </div>
 
-          <span className="num rounded border border-border bg-surface-raised px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+          <span className="num rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-0.5 font-mono text-[10px] text-slate-400">
             {project.status === "prod" ? "● Live In Prod" : "● Research Prototype"}
           </span>
         </div>
 
         {/* Card Main Body */}
-        <div className="p-5">
-          <h2 className="font-display text-xl font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
+        <div className="p-6">
+          <h2 className="font-display text-xl font-bold tracking-tight text-white group-hover:text-primary transition-colors">
             <Link to="/projects/$slug" params={{ slug: project.slug }}>
               {project.name}
             </Link>
           </h2>
 
-          <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{project.blurb}</p>
+          <p className="mt-2.5 text-sm text-slate-400 leading-relaxed">{project.blurb}</p>
 
           {/* 3 Quick KPI Numeral Chips */}
-          <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl border border-border bg-surface/50 p-2.5">
+          <div className="mt-5 grid grid-cols-3 gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
             {project.kpiChips.map((kpi, idx) => (
               <div key={idx} className="text-center">
-                <span className="block font-mono text-xs font-semibold text-primary">{kpi}</span>
-                <span className="block text-[9.5px] font-mono text-muted-foreground mt-0.5">
-                  {idx === 0 ? "Primary Metric" : idx === 1 ? "Secondary Gain" : "Scale"}
+                <span className="block font-mono text-xs font-bold text-emerald-400">{kpi}</span>
+                <span className="block text-[9px] font-mono text-slate-500 mt-0.5 uppercase tracking-wider">
+                  {idx === 0 ? "Primary Gain" : idx === 1 ? "Secondary" : "Scale"}
                 </span>
               </div>
             ))}
           </div>
 
           {/* Live Mini-Chart Sparkline Preview */}
-          <div className="mt-4 rounded-xl border border-border/70 bg-background/60 p-3">
-            <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground mb-1.5">
-              <span className="flex items-center gap-1">
-                <Activity className="h-3 w-3 text-accent" /> Convergence & Metric Trend
+          <div className="mt-5 rounded-xl border border-white/[0.06] bg-black/20 p-3.5">
+            <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-2">
+              <span className="flex items-center gap-1.5 text-slate-300 font-medium">
+                <Activity className="h-3.5 w-3.5 text-indigo-400" /> Metric Convergence Trend
               </span>
-              <span>Final: {project.sparkline[project.sparkline.length - 1]}</span>
+              <span className="text-emerald-400 font-semibold">Final: {project.sparkline[project.sparkline.length - 1]}</span>
             </div>
             <MiniSparkline data={project.sparkline} />
           </div>
 
           {/* Tech Stack Chips */}
-          <div className="mt-4 flex flex-wrap gap-1.5">
+          <div className="mt-5 flex flex-wrap gap-1.5">
             {project.stack.map((tech) => (
               <span
                 key={tech}
-                className="rounded-md border border-border bg-surface-raised/40 px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
+                className="rounded-md border border-white/[0.08] bg-white/[0.03] px-2 py-0.5 font-mono text-[11px] text-slate-300"
               >
                 {tech}
               </span>
@@ -191,7 +191,7 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
 
       {/* Card Action Rail */}
-      <div className="flex items-center justify-between border-t border-border bg-surface/20 px-5 py-3.5">
+      <div className="flex items-center justify-between border-t border-white/[0.06] bg-white/[0.01] px-6 py-4">
         <Link
           to="/projects/$slug"
           params={{ slug: project.slug }}
@@ -208,7 +208,7 @@ function ProjectCard({ project }: { project: Project }) {
               target="_blank"
               rel="noreferrer"
               aria-label="View source code on GitHub"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-slate-400 hover:text-white transition-colors"
             >
               <Github className="h-4 w-4" />
             </a>
@@ -219,7 +219,7 @@ function ProjectCard({ project }: { project: Project }) {
               target="_blank"
               rel="noreferrer"
               aria-label="Launch interactive demo"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-slate-400 hover:text-white transition-colors"
             >
               <ExternalLink className="h-4 w-4" />
             </a>
@@ -251,7 +251,7 @@ function MiniSparkline({ data }: { data: number[] }) {
       <path
         d={pathD}
         fill="none"
-        stroke="#3ddbc7"
+        stroke="#6366f1"
         strokeWidth="2.2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -265,8 +265,8 @@ function MiniSparkline({ data }: { data: number[] }) {
             cx={x}
             cy={y}
             r={idx === data.length - 1 ? 3.5 : 2}
-            fill={idx === data.length - 1 ? "#3ddbc7" : "#151b24"}
-            stroke="#3ddbc7"
+            fill={idx === data.length - 1 ? "#34d399" : "#1e1b4b"}
+            stroke={idx === data.length - 1 ? "#34d399" : "#6366f1"}
             strokeWidth="1.5"
           />
         );

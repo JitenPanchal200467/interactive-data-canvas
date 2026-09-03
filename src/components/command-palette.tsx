@@ -64,18 +64,20 @@ export function CommandPalette({
 
   return (
     <div
-      className="fixed inset-0 z-[150] flex items-start justify-center bg-black/60 p-4 pt-[15vh] backdrop-blur-sm"
+      className="fixed inset-0 z-[150] flex items-start justify-center bg-black/70 p-4 pt-[12vh] backdrop-blur-md animate-in fade-in duration-150"
       onClick={() => onOpenChange(false)}
     >
       <div
-        className="w-full max-w-xl overflow-hidden rounded-xl border border-border bg-surface shadow-2xl animate-in fade-in zoom-in-95 duration-150"
+        className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/10 bg-[#0c0f17]/95 shadow-2xl backdrop-blur-2xl animate-in zoom-in-95 duration-150 ring-1 ring-white/5"
         onClick={(e) => e.stopPropagation()}
       >
         <Command className="flex flex-col overflow-hidden bg-transparent">
-          <CommandInput placeholder="Search projects, skills, routes, or commands..." />
+          <CommandInput placeholder="Type a command or search projects & skills..." />
 
-          <CommandList className="max-h-[360px] overflow-y-auto p-2">
-            <CommandEmpty>No matching results found.</CommandEmpty>
+          <CommandList className="max-h-[380px] overflow-y-auto p-2">
+            <CommandEmpty className="py-8 text-center text-xs text-muted-foreground">
+              No matching results found.
+            </CommandEmpty>
 
             <CommandGroup heading="Navigation">
               <CommandItem onSelect={() => handleSelect(() => navigate({ to: "/" }))}>
@@ -108,7 +110,7 @@ export function CommandPalette({
               </CommandItem>
             </CommandGroup>
 
-            <CommandSeparator />
+            <CommandSeparator className="my-1 border-white/5" />
 
             <CommandGroup heading="Case Studies">
               {projects.map((p) => (
@@ -121,33 +123,33 @@ export function CommandPalette({
                   }
                   className="flex items-center justify-between"
                 >
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-3.5 w-3.5 text-accent" />
-                    <span>{p.name}</span>
+                  <div className="flex items-center gap-2 truncate pr-2">
+                    <Sparkles className="h-3.5 w-3.5 text-accent shrink-0" />
+                    <span className="truncate">{p.name}</span>
                   </div>
-                  <span className="label-caps text-[10px] text-muted-foreground">{p.domain}</span>
+                  <span className="label-caps text-[9px] text-muted-foreground shrink-0">{p.domain}</span>
                 </CommandItem>
               ))}
             </CommandGroup>
 
-            <CommandSeparator />
+            <CommandSeparator className="my-1 border-white/5" />
 
             <CommandGroup heading="Skills & Tooling">
-              {skills.slice(0, 8).map((s) => (
+              {skills.slice(0, 6).map((s) => (
                 <CommandItem
                   key={s.name}
                   onSelect={() => handleSelect(() => navigate({ to: "/about" }))}
                   className="flex items-center justify-between"
                 >
                   <span>{s.name}</span>
-                  <span className="num text-xs text-muted-foreground">
-                    {s.x} yrs · {s.y}% depth
+                  <span className="num text-[11px] text-muted-foreground font-mono">
+                    {s.x} yrs · {s.y}%
                   </span>
                 </CommandItem>
               ))}
             </CommandGroup>
 
-            <CommandSeparator />
+            <CommandSeparator className="my-1 border-white/5" />
 
             <CommandGroup heading="Actions & Tools">
               <CommandItem
@@ -183,9 +185,9 @@ export function CommandPalette({
             </CommandGroup>
           </CommandList>
 
-          <div className="flex items-center justify-between border-t border-border px-3 py-2 text-[11px] text-muted-foreground">
+          <div className="flex items-center justify-between border-t border-white/5 px-4 py-2.5 text-[11px] text-muted-foreground bg-white/[0.02]">
             <span>Use ↑↓ to navigate, Enter to select</span>
-            <span>Press ⌘K anytime</span>
+            <span className="font-mono">ESC or ⌘K to close</span>
           </div>
         </Command>
       </div>
